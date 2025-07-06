@@ -1,0 +1,26 @@
+/* app/theme.css */
+:root {
+  --background: #ffffff;
+  --foreground: #1f1f1f;
+
+  --primary: #a64cff;
+  --primary-foreground: #f2e5ff;
+
+  --secondary: #d9b3ff;
+  --secondary-foreground: #1f1f1f;
+
+  --destructive: #ff4c6a;
+  --destructive-foreground: #ffe5ea;
+
+  --muted: #f5f5f5;
+  --muted-foreground: #666666;
+
+  --accent: #6ce0a6;
+  --accent-foreground: #ffffff;
+
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a64cff;
+
+  --radius: 0.75rem; /* 12px */
+}
