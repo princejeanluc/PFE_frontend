@@ -1,6 +1,10 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "./_components/ui/app-sidebar"
 import { cookies } from "next/headers"
+import {  QueryClientProvider } from "@tanstack/react-query"
+import AuthProvider from "../_context/auth-provider"
+import { queryClient } from "../lib/queryclient"
+
 
 
 export default async  function Layout({ children }: { children: React.ReactNode }) {
@@ -10,9 +14,13 @@ export default async  function Layout({ children }: { children: React.ReactNode 
     <SidebarProvider defaultOpen={defaultOpen} >
       <AppSidebar />
       <SidebarInset >
-      <main>
+      <main className="font-sans">
         <SidebarTrigger />
-        {children}
+        <AuthProvider>
+         <QueryClientProvider client={queryClient}>
+            {children}
+        </QueryClientProvider>
+        </AuthProvider>
       </main>
       </SidebarInset>
       

@@ -22,3 +22,16 @@ export type cryptoItem = {
     expected_profit : number; 
 
 }
+
+export type cryptoIcon = {
+    imgUrl : string ;
+    label : string ; 
+}
+
+
+export type newsFeedItemType = {
+    subject : string;
+    delay : number ;
+    title : string;
+    cryptosImgRelated : cryptoIcon[]; 
+}

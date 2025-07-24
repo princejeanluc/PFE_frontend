@@ -1,3 +1,4 @@
+'use client'
 import {
   Sidebar,
   SidebarContent,
@@ -6,28 +7,28 @@ import {
   SidebarMenuItem
 } from "@/components/ui/sidebar"
 
-import { ChartNetwork, ChartNoAxesCombined, Newspaper, Umbrella, Wallet  } from "lucide-react"
+import { ChartNetwork, ChartNoAxesCombined, Newspaper, Umbrella, Wallet  } from 'lucide-react'
 import Link from 'next/link'
 const items = [
   {
     title: "Marché crypto",
     url:"/dashboard/market", 
-    icon : ChartNoAxesCombined, 
+    icon :  <ChartNoAxesCombined className="h-32 w-32" strokeWidth={2} />, 
   },
   {
     title: "Simulation",
-    url:"/dashboard/market", 
-    icon : ChartNetwork , 
+    url:"/dashboard/simulation", 
+    icon :  <ChartNetwork style={{height: 16, width:16}} strokeWidth={2} />, 
   },
   {
     title: "Analyse des risques",
     url:"/dashboard/market", 
-    icon : Umbrella , 
+    icon :  <Umbrella style={{height: 16, width:16}} strokeWidth={2} />, 
   },
   {
     title: "Actualités",
     url:"/dashboard/market", 
-    icon : Newspaper  , 
+    icon : <Newspaper style={{height: 16, width:16}} strokeWidth={2} /> , 
   },
 ]
 
@@ -38,19 +39,17 @@ export function AppSidebar() {
     <Sidebar variant="inset" collapsible="icon"  className="bg-white">
       <SidebarHeader className="h-24">
          <SidebarMenuButton className="h-full flex justify-center">
-                      <Wallet size={62}></Wallet>
+                      <Wallet className="h-32 w-32"></Wallet>
                       <span className="text-2xl">POSA</span>
           </SidebarMenuButton>
-
-         
       </SidebarHeader>
       <SidebarContent >
         {items.map(
           (item) =>(
             <SidebarMenuItem key = {item.title} className="list-none">
                 <Link   href={item.url}>
-                  <SidebarMenuButton >
-                      <item.icon strokeWidth={2} size={42}></item.icon>
+                  <SidebarMenuButton className="h-12" >
+                      {item.icon}
                       <span className="text-xl">{item.title}</span>
                   </SidebarMenuButton>
                 </Link>
