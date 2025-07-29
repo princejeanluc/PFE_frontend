@@ -1,5 +1,6 @@
+// dashboard/_lib/hooks/market.ts
 import { useQuery } from "@tanstack/react-query";
-import { getCryptoChartData, getCryptoList, getLatestCryptoInfo, getMarketIndicators, getPorfolios } from "../api/market";
+import { getCryptoChartData, getCryptoList, getLatestCryptoInfo, getLatestNews, getMarketIndicators, getPorfolios, getTopCryptos } from "../api/market";
 
 export const useMarketIndicators = () => {
   return useQuery({
@@ -50,5 +51,22 @@ export const usePorfolios = () => {
     queryKey: ["portfolios"],
     queryFn: () => getPorfolios(),
     staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+};
+
+
+export const useLatestNews = () => {
+  return useQuery({
+    queryKey: ["latest-news"],
+    queryFn: getLatestNews,
+    staleTime: 1000 * 60 * 3,
+  });
+};
+
+export const useTopCryptos = () => {
+  return useQuery({
+    queryKey: ["top-cryptos"],
+    queryFn: getTopCryptos,
+    staleTime: 1000 * 60 * 5,
   });
 };

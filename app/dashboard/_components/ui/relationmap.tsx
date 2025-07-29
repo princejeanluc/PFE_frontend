@@ -82,7 +82,7 @@ function RelationMap() {
                         )}
                     </div>
                 </div>
-                <div className='h-112'>
+                <div className='h-156'>
                     {isLoading ? (
                     <div className='text-sm text-gray-400 p-4'>Chargement...</div>
                     ) : isError ? (

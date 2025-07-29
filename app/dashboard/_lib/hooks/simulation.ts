@@ -1,6 +1,8 @@
+// dashboard/_lib/hooks/simulation.ts
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createHoldings, createPortfolio, getCryptoMap, getCryptoRelations, getPortfolio, HoldingData, PortfolioData } from "../api/simulation";
+import { createHoldings, createPortfolio, getCryptoMap, getCryptoRelations, getCryptoReturnsForPortfolio, getPortfolio, HoldingData, PortfolioData, simulatePortfolio } from "../api/simulation";
 import { getPortfolios } from "../api/simulation";
+import { getTopCryptos } from "../api/market";
 
 
 export const useCryptoRelations = (type: string, period: string, lag: number) => {
@@ -58,3 +60,27 @@ export const usePortfolio = ({id}:{id:number|string})=>{
     staleTime : 1000*60*5
   })
 }
+
+
+
+export const useSimulatePortfolio = () => {
+  return useMutation({
+    mutationFn: async (id: number) => simulatePortfolio(id),
+  });
+};
+
+export const useCryptoReturnsForPortfolio = (portfolioId: number | string) => {
+  return useQuery({
+    queryKey: ["crypto-returns", portfolioId],
+    queryFn: async () => getCryptoReturnsForPortfolio(Number(portfolioId)),
+    staleTime: 1000 * 60 * 10, // 10 min
+  });
+};
+
+export const useTopCryptos = () => {
+  return useQuery({
+    queryKey: ["top-cryptos"],
+    queryFn: getTopCryptos,
+    staleTime: 1000 * 60 * 5,
+  });
+};

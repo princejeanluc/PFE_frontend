@@ -7,18 +7,24 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 
-import { useCreateHoldings, useCreatePortfolio } from '../../_lib/hooks/simulation'
+import { useCreateHoldings, useCreatePortfolio, usePortfolios } from '../../_lib/hooks/simulation'
 import { getCryptoList } from '../../_lib/api/market'
 import { toast } from "sonner"
+import { Badge } from '@/components/ui/badge'
 
 const allocationTypes = [
-  { value: 'manual', label: 'Manuelle' },
-  { value: 'static_opt', label: 'Optimisation statique' },
-  { value: 'dynamic_opt', label: 'Optimisation dynamique' },
+  { value: 'manual', label: 'Allocation manuelle' },
+  { value: 'autom', label: 'Allocation automatique' },
 ]
 
-export default function CreatePortfolioSheet() {
-    const [open, setOpen] = useState(false)
+const objectives = [
+  { value: 'max_return', label: 'Maximiser le rendement' },
+  { value: 'min_volatility', label: 'Minimiser la volatilité' },
+  { value: 'sharpe', label: 'Maximiser le ratio de Sharpe' },
+]
+
+export default function CreatePortfolioSheet({ onSuccess }: { onSuccess: () => void }) {
+  const [open, setOpen] = useState(false)
   const [step, setStep] = useState(1)
   const [portfolioId, setPortfolioId] = useState<number | null>(null)
 
@@ -28,22 +34,43 @@ export default function CreatePortfolioSheet() {
     holding_end: '',
     initial_budget: '',
     allocation_type: 'manual',
+    objective: 'sharpe',
   })
 
-  const [availableCryptos, setAvailableCryptos] = useState<any[]>([])
-  const [holdings, setHoldings] = useState<{ crypto_id: string; percentage: number }[]>([])
+  const [allCryptos, setAllCryptos] = useState<any[]>([])
+  const [selectedCryptos, setSelectedCryptos] = useState<any[]>([])
+  const [holdings, setHoldings] = useState<{ crypto: string; allocation_percentage: number }[]>([])
 
   const { mutateAsync: createPortfolio } = useCreatePortfolio()
   const { mutateAsync: createHoldings } = useCreateHoldings()
 
-  // Fetch cryptos à l'étape 2 si allocation manuelle
-  useEffect(  () => {
-    if (step === 2 && form.allocation_type === 'manual') {
-      getCryptoList().then((data)=>{
-        setAvailableCryptos(data.results)
-      }) 
+  useEffect(() => {
+    getCryptoList().then(data => setAllCryptos(data.results))
+  }, [])
+
+  const toggleCryptoSelection = (crypto: any) => {
+    const exists = selectedCryptos.find(c => c.id === crypto.id)
+    if (exists) {
+      setSelectedCryptos(selectedCryptos.filter(c => c.id !== crypto.id))
+    } else {
+      setSelectedCryptos([...selectedCryptos, crypto])
     }
-  }, [step])
+  }
+
+  const resetState = () => {
+    setStep(1)
+    setForm({
+      name: '',
+      holding_start: '',
+      holding_end: '',
+      initial_budget: '',
+      allocation_type: 'manual',
+      objective: 'sharpe',
+    })
+    setSelectedCryptos([])
+    setHoldings([])
+    setPortfolioId(null)
+  }
 
   const handleCreatePortfolio = async () => {
     try {
@@ -53,143 +80,117 @@ export default function CreatePortfolioSheet() {
         holding_end: form.holding_end,
         initial_budget: parseFloat(form.initial_budget),
         allocation_type: form.allocation_type as any,
+        objective: form.allocation_type === 'autom' ? form.objective : null
       })
       setPortfolioId(portfolio.id)
-      console.log(" aloc",form.allocation_type)
+      toast("Portefeuille créé avec succès")
 
       if (form.allocation_type === 'manual') {
         setStep(2)
       } else {
-        setOpen(false)
-        toast("Portfolio has been created", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
+        try {
+          console.log("selected cryptos",selectedCryptos)
+          const payload = selectedCryptos.map(h => ({
+            portfolio: portfolio.id,
+            crypto: h.id,
+            allocation_percentage: 0,
+            quantity: 0
+          }))
+          console.log("payload = ", payload)
+          for (const item of payload) {await createHoldings(item)}
+          toast("Répartition enregistrée")
+          setOpen(false)
+        } catch {
+          toast.error("Erreur lors de l’enregistrement des allocations")
+        }
+        resetState()
+        onSuccess?.()
       }
     } catch (err) {
       toast.error("Erreur lors de la création du portefeuille")
     }
   }
 
-  const handleAddHolding = async () => {
+  const handleAddHoldings = async () => {
     if (!portfolioId) return
     try {
       const payload = holdings.map(h => ({
         portfolio: portfolioId,
-        crypto: h.crypto_id,
-        allocation_percentage: h.percentage,
-        quantity:0
+        crypto: h.crypto,
+        allocation_percentage: h.allocation_percentage,
+        quantity: 0
       }))
-      let sum_percent = 0
-      let tmp = 0
-      for (let i=0; i< payload.length;i++){
-        tmp = payload[i].allocation_percentage || 0 
-        sum_percent+= tmp
-      }
-      if(sum_percent===100){
-        for (let i=0; i< payload.length;i++){
-            if (payload[i].allocation_percentage && payload[i].allocation_percentage ==0){
-                await createHoldings(payload[i])
-            }
-      }
-        toast("Portfolio a été crée avec succès", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
+      const total = payload.reduce((sum, h) => sum + h.allocation_percentage, 0)
+      if (total === 100) {
+        for (const item of payload) await createHoldings(item)
+        toast("Répartition enregistrée")
         setOpen(false)
+        onSuccess?.()
+        resetState()
+      } else {
+        toast.error(`La somme doit faire 100%. Actuellement: ${total}%`)
       }
-      else{
-        toast.error(`la somme des allocations n'est pas de 100 % . pourcentage actuelle ${sum_percent} %`)
-      }
-      
-    } catch (err) {
-      toast.error('Erreur lors de l’enregistrement des holdings')
+    } catch {
+      toast.error("Erreur lors de l’enregistrement des allocations")
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(value) => { setOpen(value); if (!value) resetState() }}>
       <DialogTrigger asChild>
         <Button>Créer un portefeuille</Button>
       </DialogTrigger>
-      <DialogContent className="p-6 max-w-xl">
-        <DialogTitle>Création portefeuille</DialogTitle>
-        <DialogDescription>
-            This action cannot be undone. This will permanently delete your account
-            and remove your data from our servers.
-        </DialogDescription>
+      <DialogContent className="p-6 max-w-2xl">
+        <DialogTitle>Nouveau portefeuille</DialogTitle>
+        <DialogDescription>Configurez votre portefeuille d'investissement</DialogDescription>
+
         {step === 1 && (
           <div className="flex flex-col gap-4">
-            <Input
-              placeholder="Nom"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <Input
-              type="number"
-              placeholder="Budget initial"
-              value={form.initial_budget}
-              onChange={(e) => setForm({ ...form, initial_budget: e.target.value })}
-            />
-            <Input
-              type="date"
-              placeholder="Début"
-              value={form.holding_start}
-              onChange={(e) => setForm({ ...form, holding_start: e.target.value })}
-            />
-            <Input
-              type="date"
-              placeholder="Fin"
-              value={form.holding_end}
-              onChange={(e) => setForm({ ...form, holding_end: e.target.value })}
-            />
-            <Select
-              value={form.allocation_type}
-              onValueChange={(value) => setForm({ ...form, allocation_type: value })}
-            >
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="manual" />
-                </SelectTrigger>
-                <SelectContent>
-                    {allocationTypes.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-              
+            <Input placeholder="Nom" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+            <Input type="number" placeholder="Budget" value={form.initial_budget} onChange={e => setForm({ ...form, initial_budget: e.target.value })} />
+            <Input type="date" value={form.holding_start} onChange={e => setForm({ ...form, holding_start: e.target.value })} />
+            <Input type="date" value={form.holding_end} onChange={e => setForm({ ...form, holding_end: e.target.value })} />
+
+            <Select value={form.allocation_type} onValueChange={val => setForm({ ...form, allocation_type: val })}>
+              <SelectTrigger className="w-full"><SelectValue placeholder="Méthode d'allocation" /></SelectTrigger>
+              <SelectContent>{allocationTypes.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>)}</SelectContent>
             </Select>
-            <Button onClick={handleCreatePortfolio}>Suivant</Button>
+
+            {form.allocation_type === 'autom' && (
+              <Select value={form.objective} onValueChange={val => setForm({ ...form, objective: val })}>
+                <SelectTrigger className="w-full"><SelectValue placeholder="Objectif" /></SelectTrigger>
+                <SelectContent>{objectives.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>)}</SelectContent>
+              </Select>
+            )}
+
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">Choisissez les cryptos à inclure :</p>
+              <div className="flex flex-wrap gap-2">
+                {allCryptos.map(c => (
+                  <Badge key={c.id} onClick={() => toggleCryptoSelection(c)} variant={selectedCryptos.find(s => s.id === c.id) ? 'default' : 'outline'}>
+                    {c.symbol}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <Button onClick={handleCreatePortfolio}>Continuer</Button>
           </div>
         )}
 
         {step === 2 && (
           <div className="flex flex-col gap-4">
             <h2 className="text-lg font-semibold">Répartition manuelle</h2>
-            {availableCryptos.map((crypto) => (
-              <div key={crypto.id} className="flex justify-between items-center gap-2">
-                <span>{crypto.symbol}</span>
-                <Input
-                  type="number"
-                  placeholder="%"
-                  onChange={(e) => {
-                    const updated = holdings.filter((h) => h.crypto_id !== crypto.id)
-                    updated.push({
-                      crypto_id: crypto.id,
-                      percentage: parseFloat(e.target.value),
-                    })
-                    setHoldings(updated)
-                  }}
-                />
+            {selectedCryptos.map(c => (
+              <div key={c.id} className="flex justify-between items-center">
+                <span>{c.symbol}</span>
+                <Input type="number" placeholder="%" onChange={e => {
+                  const updated = holdings.filter(h => h.crypto !== c.id)
+                  updated.push({ crypto: c.id, allocation_percentage: parseFloat(e.target.value) })
+                  setHoldings(updated)
+                }} />
               </div>
             ))}
-            <Button onClick={handleAddHolding}>Valider le portefeuille</Button>
+            <Button onClick={handleAddHoldings}>Valider le portefeuille</Button>
           </div>
         )}
       </DialogContent>

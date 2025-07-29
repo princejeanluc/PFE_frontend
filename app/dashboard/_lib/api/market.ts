@@ -32,7 +32,7 @@ export const getCryptoChartData = async (symbol: string, range: string) => {
   }
 };
 
-// _lib/api/market.ts
+
 export const getLatestCryptoInfo = async ({
   page = 1,
   pageSize = 10,
@@ -64,4 +64,26 @@ export const getPorfolios = async () => {
   }
 };
 
+
+export const getLatestNews = async () => {
+  try {
+    const response = await api.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/news/latest/`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erreur lors du chargement des actualités récentes");
+  }
+};
+
+export const getTopCryptos = async () => {
+  try {
+    const response = await api.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/crypto-infos/top/`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erreur lors du chargement des top cryptos");
+  }
+};
 

@@ -127,3 +127,13 @@ export const newsFeedList : newsFeedItemType[]  = [
         ]
     }
 ]
+
+
+
+export const clusterColors: Record<number, string> = {
+  0: '#ff4d4f', // rouge
+  1: '#40a9ff', // bleu
+  2: '#73d13d', // vert
+  3: '#faad14', // orange
+  4: '#9254de', // violet
+}

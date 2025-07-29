@@ -14,7 +14,7 @@ function ListPortFolioComponent() {
     const [start , setStart] = useState("");
     const [end , setEnd] = useState("");
     const pageSize = 10;
-    const { data: dataPortfolios, isLoading : isLoadingDataPortfolios } = usePortfolios({ page, pageSize, search, start, end });
+    const { data: dataPortfolios, isLoading : isLoadingDataPortfolios,refetch } = usePortfolios({ page, pageSize, search, start, end });
   return (
     <div className='flex flex-col gap-4'>
             <div className='w-full h-fit flex justify-between  bg-white px-4 py-2 border-l-6 border-primary items-center rounded-sm gap-4 shadow-sm'>
@@ -54,7 +54,7 @@ function ListPortFolioComponent() {
                         className="p-2 border rounded-md text-sm  w-full max-w-xs "
                         />
                 </div>
-                <CreatePortfolioSheet></CreatePortfolioSheet>
+                <CreatePortfolioSheet onSuccess={() => refetch()}></CreatePortfolioSheet>
             </div>
             <div className=' p-8 bg-white rounded-sm shadow-sm'>
                 <div className=' grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4 h-100 overflow-scroll overflow-x-hidden'>

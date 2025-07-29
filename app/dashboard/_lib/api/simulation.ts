@@ -32,13 +32,14 @@ export interface PortfolioData {
   holding_start: string
   holding_end: string
   initial_budget: number
-  allocation_type: 'manual' | 'static_opt' | 'dynamic_opt'
+  allocation_type: 'manual' | 'static_opt' | 'dynamic_opt',
+  objective:any
 }
 
 export interface HoldingData {
   portfolio: number
   crypto: number
-  weight: number
+  weights: number
 }
 
 export const createPortfolio = async (data: PortfolioData) => {
@@ -94,3 +95,22 @@ export const  getPortfolio= async ({id}:{id: number})=>{
         throw new Error("Erreur lors du chargement des données du graphique crypto-relations");
      }
 }
+
+export const simulatePortfolio = async (id: number) => {
+  try {
+    const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/${id}/simulate/`)
+    return response.data
+  } catch (error) {
+    throw new Error("Erreur lors de la simulation du portefeuille")
+  }
+}
+
+export const getCryptoReturnsForPortfolio = async (id: number) => {
+  try {
+    const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/${id}/crypto-returns/`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erreur lors du chargement des rendements des cryptos du portefeuille");
+  }
+};
+

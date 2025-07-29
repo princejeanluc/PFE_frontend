@@ -1,6 +1,6 @@
 "use client"
 
-import { ListOrdered, Newspaper } from "lucide-react"
+import { ListOrdered, Newspaper, TrendingDown, TrendingUp } from "lucide-react"
 import Image from 'next/image'
 import {
   Card,
@@ -17,18 +17,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-import { listTopCrypto } from "../constants/constants"
 import NewsFeed from "./newsfeed"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { fr } from 'date-fns/locale';
+import { useTopCryptos } from "../../_lib/hooks/simulation"
 
-export const description = "A line chart"
 
 
 
 export function ActuAndTopCrypto() {
+  const {data , isLoading} = useTopCryptos();
   return (
     <Card className="">
       <CardHeader>
@@ -43,29 +42,32 @@ export function ActuAndTopCrypto() {
           <ListOrdered   className="h-4 w-4"/> Classement 7 derniers jours 
         </div>
         <div className="text-muted-foreground leading-none">
+          {isLoading ? <span>{"is Loading"}</span>  : 
           <Table className="font-medium text-sm">
-
             <TableHeader className="text-foreground">
               <TableRow>
-                <TableCell></TableCell><TableCell>Crypto</TableCell><TableCell>Prix</TableCell><TableCell>Rendement(24H)</TableCell>
+                <TableCell></TableCell><TableCell className="text-center">Crypto</TableCell><TableCell className="text-center">Prix</TableCell><TableCell className="text-center">Rendement(24H)</TableCell><TableCell className="text-center">Capitalisation marché</TableCell>
               </TableRow>
             </TableHeader>
             <TableBody>
-            {listTopCrypto.map(
-              (crypto)=>{
-                return <TableRow className="bg-side-bar" key ={crypto.label}>
-                          <TableCell className="font-medium">
-                            <Image src={crypto.img_url} width={30} height={30} alt={crypto.label}>
-                            </Image>
-                          </TableCell>
-                          <TableCell>{crypto.label}</TableCell>
-                          <TableCell>$ {crypto.price}</TableCell>
-                          <TableCell className={cn("text-center", {"text-green-400":crypto.daily_return>=0,"text-red-400":crypto.daily_return<0})}>{crypto.daily_return}</TableCell>
-                        </TableRow>
-              }
-            )}
-          </TableBody>
+              {data.map(
+                (crypto)=>{
+                  return <TableRow className="bg-side-bar" key ={crypto.symbol}>
+                            <TableCell className="font-medium text-center text-black">
+                              <Image src={crypto.image_url} width={30} height={30} alt={crypto.slug}></Image>
+                            </TableCell>
+                            <TableCell className="font-medium text-center text-black">{crypto.symbol}</TableCell>
+                            <TableCell className="font-medium text-center text-black">$ {Math.round(crypto.current_price)}</TableCell>
+                            <TableCell className={cn("flex text-center items-center gap-2", {"text-green-400":crypto.price_change_24h>=0,"text-red-400":crypto.price_change_24h<0})}> {crypto.price_change_24h>0 ? <TrendingUp></TrendingUp>: <TrendingDown></TrendingDown>}{crypto.price_change_24h} %</TableCell>
+                            <TableCell>{Math.round(crypto.market_cap)}</TableCell>
+                          </TableRow>
+                }
+              )}
+           </TableBody>
           </Table>
+          
+          }
+          
         </div>
         </CardContent>
     </Card>

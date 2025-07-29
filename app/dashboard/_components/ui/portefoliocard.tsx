@@ -66,8 +66,8 @@ function PortefolioCard({ portfolio }: { portfolio: portfolioType }) {
           <div className="flex -space-x-2">
             {portfolio.holdings.map((holding) => (
               <Avatar key={holding.id} className="h-7 w-7 bg-white border-4 border-white shadow-sm">
-                <AvatarImage src={holding.crypto.image_url} alt={holding.crypto.name} />
-                <AvatarFallback>{holding.crypto.symbol}</AvatarFallback>
+                <AvatarImage src={holding.crypto_detail.image_url} alt={holding.crypto.name} />
+                <AvatarFallback>{holding.crypto_detail.symbol}</AvatarFallback>
               </Avatar>
             ))}
           </div>
