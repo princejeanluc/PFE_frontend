@@ -55,13 +55,12 @@ export function ChartAreaInteractive() {
 
   const chartData = React.useMemo(() => {
     if (!data || !data.history) return []
-
     return data.history.map((item: any) => ({
       date: item.timestamp,
       price: item.price,  
     }))
   }, [data])
-
+  
   return (
     <div className="flex flex-col h-full gap-2 ">
       <Card className="rounded-md p-2 ">

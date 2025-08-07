@@ -9,7 +9,7 @@ function NewsFeed() {
 
   if (isLoading) return <div>Chargement des actualités...</div>;
   if (error || !data) return <div>Erreur lors du chargement.</div>;
-
+  if(data) console.log(data)
   return (
     <div className="flex flex-col gap-2">
       {data.map((news: any) => (
