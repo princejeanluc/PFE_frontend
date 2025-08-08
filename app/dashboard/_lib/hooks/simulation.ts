@@ -2,7 +2,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createHoldings, createPortfolio, getCryptoMap, getCryptoRelations, getCryptoReturnsForPortfolio, getPortfolio, HoldingData, PortfolioData, simulatePortfolio } from "../api/simulation";
 import { getPortfolios } from "../api/simulation";
-import { getTopCryptos } from "../api/market";
 
 
 export const useCryptoRelations = (type: string, period: string, lag: number) => {
@@ -77,10 +76,3 @@ export const useCryptoReturnsForPortfolio = (portfolioId: number | string) => {
   });
 };
 
-export const useTopCryptos = () => {
-  return useQuery({
-    queryKey: ["top-cryptos"],
-    queryFn: getTopCryptos,
-    staleTime: 1000 * 60 * 5,
-  });
-};

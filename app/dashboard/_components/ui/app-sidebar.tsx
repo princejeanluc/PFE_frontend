@@ -22,7 +22,7 @@ const items = [
   },
   {
     title: "Analyse des risques",
-    url:"/dashboard/market", 
+    url:"/dashboard/risk", 
     icon :  <Umbrella style={{height: 16, width:16}} strokeWidth={2} />, 
   },
   {

@@ -21,7 +21,7 @@ import NewsFeed from "./newsfeed"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { fr } from 'date-fns/locale';
-import { useTopCryptos } from "../../_lib/hooks/simulation"
+import { useTopCryptos } from "../../_lib/hooks/market"
 
 
 
