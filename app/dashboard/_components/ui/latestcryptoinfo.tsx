@@ -75,10 +75,10 @@ function LatestCryptoInfoComponent() {
                           {crypto.latest_info?.volatility_24h }
                         </TableCell>
                         <TableCell className='text-center text-xs'>
-                          {crypto.latest_info?.volatility_24h > 0 ? (
-                            <TrendingUp className='bg-green-500 rounded-full text-white m-auto' style={{ height: 16, width: 16 }} />
+                          {Math.exp(crypto.latest_predictions[0]["predicted_log_return"]/100)-1 > 0 ? (
+                            <span className='flex'>{((Math.exp(crypto.latest_predictions[0]["predicted_log_return"]/100)-1)*100).toFixed(2)} % <TrendingUp className='bg-green-500 rounded-full text-white m-auto' style={{ height: 16, width: 16 }} /> </span>
                           ) : (
-                            <TrendingDown className='bg-red-500 rounded-full text-white m-auto' style={{ height: 16, width: 16 }} />
+                            <span className='flex'>{((Math.exp(crypto.latest_predictions[0]["predicted_log_return"]/100)-1)*100).toFixed(2)} % <TrendingDown className='bg-red-500 rounded-full text-white m-auto' style={{ height: 16, width: 16 }} /> </span>
                           )}
                         </TableCell>
                         <TableCell className='text-center text-xs'>
