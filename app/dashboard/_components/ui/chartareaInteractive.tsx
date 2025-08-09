@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts"
 
 import {
   Card,
@@ -115,13 +115,14 @@ export function ChartAreaInteractive() {
           </Select>
         </CardHeader>
 
-        <CardContent className="px-2 sm:px-6 sm:pt-6 min-h-72">
+        <CardContent className="px-2 sm:px-6 sm:pt-6 h-full" >
           {isLoading ? (
             <p>Chargement du graphique...</p>
           ) : error ? (
             <p className="text-red-500">Erreur lors du chargement des données.</p>
           ) : (
-            <ChartContainer config={chartConfig} className="aspect-auto h-full w-full">
+          <ResponsiveContainer className={"h-full w-full"}>
+            <ChartContainer config={chartConfig}  className="h-90">
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
@@ -166,6 +167,7 @@ export function ChartAreaInteractive() {
                 <ChartLegend content={<ChartLegendContent payload={undefined} />} />
               </AreaChart>
             </ChartContainer>
+            </ResponsiveContainer>
           )}
         </CardContent>
       </Card>

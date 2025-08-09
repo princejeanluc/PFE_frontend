@@ -40,7 +40,9 @@ function LatestCryptoInfoComponent() {
                 <TableHead className='font-medium text-sm text-primary '>Crypto</TableHead>
                 <TableHead className='font-medium text-sm text-primary text-center'>Prix</TableHead>
                 <TableHead className='font-medium text-sm text-primary text-center'>Rendement % (24H)</TableHead>
+                <TableHead className='font-medium text-sm text-primary text-center'>Rang (Capitalisation)</TableHead>
                 <TableHead className='font-medium text-sm text-primary text-center'>Echanges </TableHead>
+                <TableHead className='font-medium text-sm text-primary text-center'>Volatilité (24 h)</TableHead>
                 <TableHead className='font-medium text-sm text-primary text-center'>Variation Attendue (H)</TableHead>
                 <TableHead className='font-medium text-sm text-primary text-center'>Profit attendu (24H)</TableHead>
               </TableRow>
@@ -50,7 +52,7 @@ function LatestCryptoInfoComponent() {
                     <TableRow><TableCell colSpan={6}><Skeleton className="w-full h-6" /></TableCell></TableRow>
                   ) : (
                     dataCryptoLatest?.results.map((crypto: any) => (
-                      <TableRow key={crypto.id}>
+                      <TableRow key={crypto.id} className=''>
                         <TableCell>
                           <div className='flex items-center gap-2 font-bold text-xs'>
                             <Image src={crypto.image_url} width={12} height={12} alt={crypto.name} />
@@ -61,10 +63,16 @@ function LatestCryptoInfoComponent() {
                           ${crypto.latest_info?.current_price?.toFixed(2) ?? "N/A"}
                         </TableCell>
                         <TableCell className='text-center text-xs'>
-                          {crypto.latest_info?.daily_return ?? "-"}%
+                          {crypto.latest_info?.return_24h.toFixed(2) ?? "-"} %
                         </TableCell>
                         <TableCell className='text-center text-xs'>
-                          ${crypto.latest_info?.volume?.toLocaleString() ?? "N/A"}
+                          {crypto.latest_info?.market_cap_rank ?? "-"} 
+                        </TableCell>
+                        <TableCell className='text-center text-xs'>
+                          ${crypto.latest_info?.circulating_supply ?? "N/A"}
+                        </TableCell>
+                        <TableCell className='text-center text-xs'>
+                          {crypto.latest_info?.volatility_24h }
                         </TableCell>
                         <TableCell className='text-center text-xs'>
                           {crypto.latest_info?.volatility_24h > 0 ? (

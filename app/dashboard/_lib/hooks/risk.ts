@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { getRiskSimulation, OptionPriceInput, OptionPriceResponse, postOptionPrice, RiskApiResponse } from "../api/risk"
+import { applyStressScenario, getRiskSimulation, getStressScenarios, OptionPriceInput, OptionPriceResponse, postOptionPrice, RiskApiResponse, StressApplyPayload, StressApplyResponse } from "../api/risk"
 
 export const useRiskSimulation = (
   symbol: string,
@@ -17,6 +17,22 @@ export const useRiskSimulation = (
 export const useOptionPricing = () =>
   useMutation<OptionPriceResponse, any, OptionPriceInput>({
     mutationFn: (payload) => postOptionPrice(payload),
+  });
+
+
+export const useStressScenarios = () =>
+  useQuery({
+    queryKey: ["stress-scenarios"],
+    queryFn: getStressScenarios,
+    staleTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
+  });
+
+
+
+export const useApplyStress = () =>
+  useMutation<StressApplyResponse, any, StressApplyPayload>({
+    mutationFn: applyStressScenario,
   });
 
 

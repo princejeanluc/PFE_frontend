@@ -55,3 +55,41 @@ export const postOptionPrice = async (payload: OptionPriceInput) => {
   );
   return data as OptionPriceResponse;
 };
+
+
+// --- Stress tests ---
+// List scenarios (DRF peut renvoyer paginé)
+export const getStressScenarios = async () => {
+  const { data } = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/risk/stress/scenarios/`);
+  return Array.isArray(data) ? data : (data?.results ?? []);
+};
+
+export type StressApplyPayload = {
+  portfolio_id: number;
+  scenario: { id: number } | { name?: string; type: 'uniform' | 'factor' | 'historical'; params: any };
+};
+
+export type StressApplyResponse = {
+  portfolio_id: number;
+  scenario: { name: string; type: string };
+  base_value: number;
+  stressed_value: number;
+  pnl: number;
+  pnl_pct: number;        // -0.26 => -26%
+  by_asset: { symbol: string; weight: number; return: number; contribution: number }[];
+};
+
+export const applyStressScenario = async (payload: StressApplyPayload) => {
+  const { data } = await api.post(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/risk/stress/apply/`,
+    payload
+  );
+  return data as StressApplyResponse;
+};
+
+// Optionnel: si tu n’as pas déjà ce helper
+export const getPortfolioList = async () => {
+  const { data } = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/`);
+  // DRF paginé
+  return Array.isArray(data) ? data : (data?.results ?? []);
+};
