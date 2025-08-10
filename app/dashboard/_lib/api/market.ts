@@ -7,8 +7,11 @@ export const getMarketSnapshot = async () => {
   return response.data;
 };
 
-export const getCryptoList = async () => {
-  const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cryptos/`);
+export const getCryptoList = async (pageSize:number = 30) => {
+  const params = new URLSearchParams({
+      page_size: pageSize.toString(),
+    });
+  const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cryptos/?${params.toString()}`);
   return response.data;
 };
 
