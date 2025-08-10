@@ -10,18 +10,20 @@ export type RiskApiResponse = {
   metrics: { var_95: number; es_95: number; sharpe: number }
 }
 
-export const getRiskSimulation = async (params: {
-  symbol: string
-  horizon_hours: number
-  n_sims?: number
-}) => {
+
+
+export const getRiskSimulation = async (
+  params: { symbol: string; horizon_hours: number; n_sims?: number },
+  opts?: { signal?: AbortSignal }
+) => {
   const { symbol, horizon_hours, n_sims = 200 } = params
   const response = await api.get(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/risk/simulate/`,
-    { params: { symbol, horizon_hours, n_sims } }
+    { params: { symbol, horizon_hours, n_sims }, signal: opts?.signal } // ✅
   )
   return response.data as RiskApiResponse
 }
+
 
 // --- Pricing Monte Carlo ---
 export type OptionPriceInput = {
@@ -33,6 +35,7 @@ export type OptionPriceInput = {
   current_date?: string;        // ... soit ces deux dates (ISO)
   maturity_date?: string;
   n_sims?: number;              // ≤ 2000
+  
 };
 
 export type OptionPriceResponse = {
@@ -48,13 +51,17 @@ export type OptionPriceResponse = {
   diagnostics: { model_used: string; last_price: number };
 };
 
-export const postOptionPrice = async (payload: OptionPriceInput) => {
+export const postOptionPrice = async (
+  payload: OptionPriceInput,
+  opts?: { signal?: AbortSignal }
+) => {
   const { data } = await api.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/risk/option/price/`,
-    payload
-  );
-  return data as OptionPriceResponse;
-};
+    payload,
+    { signal: opts?.signal } // ✅ passe l’AbortSignal à axios
+  )
+  return data as OptionPriceResponse
+}
 
 
 // --- Stress tests ---
