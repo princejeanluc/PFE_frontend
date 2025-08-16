@@ -46,7 +46,11 @@ export function ActuAndTopCrypto() {
           <Table className="font-medium text-sm">
             <TableHeader className="text-foreground">
               <TableRow>
-                <TableCell></TableCell><TableCell className="text-center">Crypto</TableCell><TableCell className="text-center">Prix</TableCell><TableCell className="text-center">Rendement(24H)</TableCell><TableCell className="text-center">Capitalisation marché</TableCell>
+                <TableCell></TableCell>
+                <TableCell className="text-center">Crypto</TableCell>
+                <TableCell className="text-center">Prix</TableCell>
+                <TableCell className="">Rendement(24H)</TableCell>
+                <TableCell className="">Capitalisation marché</TableCell>
               </TableRow>
             </TableHeader>
             <TableBody>

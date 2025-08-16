@@ -7,6 +7,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { useLatestCryptoInfo } from '../../_lib/hooks/market'
 import Titlebar from './titlebar'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 const nfUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 })
 const nfPct = (x?: number | null) => (x == null ? '—' : `${x.toFixed(2)} %`)
@@ -102,7 +103,7 @@ export default function LatestCryptoInfoComponent() {
                       ? Math.sign(xgb.predicted_price - price)
                       : (xgb?.predicted_log_return == null ? null : Math.sign(xgb.predicted_log_return));
                   const disagree = (xgbDir != null && gruDir != null && xgbDir !== 0 && gruDir !== 0) ? (xgbDir !== gruDir) : false;
-
+                  const predicted_date = (new Date(c.latest_predictions[0]?.predicted_date)).toLocaleString() || "NA";
 
                   return (
                     <TableRow key={c.id}>
@@ -131,22 +132,31 @@ export default function LatestCryptoInfoComponent() {
                       </TableCell>
 
                       <TableCell className="text-center text-xs">
-                        {var1hPct == null ? (
-                          <span className="text-gray-400">—</span>
-                        ) : var1hPct > 0 ? (
-                          <span className="inline-flex items-center gap-1 text-green-600">
-                            {var1hPct.toFixed(2)} % <TrendingUp className="h-4 w-4" />
-                          </span>
-                        ) : var1hPct < 0 ? (
-                          <span className="inline-flex items-center gap-1 text-red-600">
-                            {var1hPct.toFixed(2)} % <TrendingDown className="h-4 w-4" />
-                          </span>
-                        ) : '0.00 %'}
-                        {disagree && (
-                          <span className="ml-1 inline-flex items-center gap-1 text-[10px] text-amber-600">
-                            <AlertTriangle className="h-3 w-3" /> désaccord
-                          </span>
-                        )}
+                        <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span>
+                                  {var1hPct == null ? (
+                                      <span className="text-gray-400">—</span>
+                                    ) : var1hPct > 0 ? (
+                                      <span className="inline-flex items-center gap-1 text-green-600">
+                                        {var1hPct.toFixed(2)} % 
+                                            <TrendingUp className="h-4 w-4" />
+                                        
+                                      </span>
+                                    ) : var1hPct < 0 ? (
+                                      <span className="inline-flex items-center gap-1 text-red-600">
+                                        {var1hPct.toFixed(2)} % <TrendingDown className="h-4 w-4" />
+                                      </span>
+                                    ) : '0.00 %'}
+                                    {disagree && (
+                                      <span className="ml-1 inline-flex items-center gap-1 text-[10px] text-amber-600">
+                                        <AlertTriangle className="h-3 w-3" /> désaccord
+                                      </span>
+                                    )}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-xs text-xs"><span>{predicted_date }</span></TooltipContent>
+                            </Tooltip>
                       </TableCell>
 
                       <TableCell className="text-center text-xs">

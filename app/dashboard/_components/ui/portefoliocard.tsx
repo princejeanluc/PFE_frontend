@@ -33,7 +33,6 @@ function PortefolioCard({ portfolio }: { portfolio: portfolioType }) {
         <div className="flex flex-col items-center space-y-1">
           <span className="text-gray-500">Investissement</span>
           <div className="text-3xl text-gray-800 font-extrabold flex items-center gap-1">
-            <DollarSign className="text-green-500" strokeWidth={3} size={24} />
             <span> <CountUp end={portfolio.initial_budget} duration={1.5}  separator=" " decimals={2}  suffix=" $" /></span>
           </div>
         </div>

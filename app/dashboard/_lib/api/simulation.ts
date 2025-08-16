@@ -97,12 +97,9 @@ export const  getPortfolio= async ({id}:{id: number})=>{
 }
 
 export const simulatePortfolio = async (id: number) => {
-  try {
+  
     const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/${id}/simulate/`)
     return response.data
-  } catch (error) {
-    throw new Error("Erreur lors de la simulation du portefeuille")
-  }
 }
 
 export const getCryptoReturnsForPortfolio = async (id: number) => {

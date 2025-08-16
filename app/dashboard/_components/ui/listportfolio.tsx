@@ -1,89 +1,111 @@
 'use client'
-import { Input } from '@/components/ui/input';
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui/pagination';
-import { Search } from 'lucide-react';
-import React, { useState } from 'react'
-import { usePortfolios } from '../../_lib/hooks/simulation';
-import CreatePortfolioSheet from './createportfoliosheetT';
-import PortefolioCard from './portefoliocard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input'
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui/pagination'
+import { Search } from 'lucide-react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { usePortfolios } from '../../_lib/hooks/simulation'
+import CreatePortfolioSheet from './createportfoliosheetT'
+import PortefolioCard from './portefoliocard'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+
+function useDebounced<T>(value: T, delay = 500) {
+  const [v, setV] = useState(value)
+  useEffect(() => { const id = setTimeout(() => setV(value), delay); return () => clearTimeout(id) }, [value, delay])
+  return v
+}
 
 function ListPortFolioComponent() {
-    const [page, setPage] = useState(1);
-    const [search, setSearch] = useState("");
-    const [start , setStart] = useState("");
-    const [end , setEnd] = useState("");
-    const pageSize = 10;
-    const { data: dataPortfolios, isLoading : isLoadingDataPortfolios,refetch } = usePortfolios({ page, pageSize, search, start, end });
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [pendingStart, setPendingStart] = useState('')
+  const [pendingEnd, setPendingEnd] = useState('')
+  const [sort, setSort] = useState<'created_desc'|'created_asc'|'name_asc'|'name_desc'>('created_desc')
+
+  // valeurs “appliquées” (pas à chaque frappe)
+  const [applied, setApplied] = useState({ start: '', end: '' })
+  const debouncedSearch = useDebounced(search, 500)
+
+  const pageSize = 12
+  const { data: dataPortfolios, isLoading: isLoadingDataPortfolios, refetch, isFetching } =
+    usePortfolios({ page, pageSize, search: debouncedSearch, start: applied.start, end: applied.end, sort })
+
+  const onApplyFilters = () => { setApplied({ start: pendingStart, end: pendingEnd }); setPage(1) }
+  const onResetFilters = () => { setPendingStart(''); setPendingEnd(''); setApplied({ start: '', end: '' }); setPage(1) }
+
   return (
-    <div className='flex flex-col gap-4'>
-            <div className='w-full h-fit flex justify-between  bg-white px-4 py-2 border-l-6 border-primary items-center rounded-sm gap-4 shadow-sm'>
-                <span className='text-primary font-medium'>Portefeuilles</span>
-                <div className='flex gap-2 items-center'>
-                    <input
-                        type="text"
-                        placeholder="Rechercher une crypto..."
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value);
-                            setPage(1); // reset à la première page si on fait une recherche
-                        }}
-                        className="p-2 border rounded-md text-sm  w-full max-w-xs "
-                        />
-                    <Search className='h-12 w-12'></Search>
-                    <span>Début</span>
-                    <input
-                        type="date"
-                        placeholder="start"
-                        value={start}
-                        onChange={(e) => {
-                            setStart(e.target.value);
-                            setPage(1); // reset à la première page si on fait une recherche
-                        }}
-                        className="p-2 border rounded-md text-sm  w-full max-w-xs "
-                        />
-                    <span>Fin</span>
-                    <input
-                        type="date"
-                        placeholder="end"
-                        value={end}
-                        onChange={(e) => {
-                            setEnd(e.target.value);
-                            setPage(1); // reset à la première page si on fait une recherche
-                        }}
-                        className="p-2 border rounded-md text-sm  w-full max-w-xs "
-                        />
-                </div>
-                <CreatePortfolioSheet onSuccess={() => refetch()}></CreatePortfolioSheet>
-            </div>
-            <div className=' p-8 bg-white rounded-sm shadow-sm'>
-                <div className=' grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4 h-100 overflow-scroll overflow-x-hidden'>
-                    {isLoadingDataPortfolios ? (
-                    <Skeleton className="w-full h-6" />
-                  ) : (
-                    dataPortfolios?.results.map((portfolio: any) =>(<PortefolioCard key={portfolio.id} portfolio={portfolio} ></PortefolioCard>)) )}
-                </div>
-            </div>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                  />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">{page}</PaginationLink>
-                </PaginationItem>
-                {dataPortfolios?.next && (
-                  <PaginationItem>
-                    <PaginationNext href="#" onClick={() => setPage((prev) => prev + 1)} />
-                  </PaginationItem>
-                )}
-              </PaginationContent>
-            </Pagination>
-            
+    <div className="flex flex-col gap-4">
+      <div className="w-full h-fit flex flex-wrap gap-3 justify-between bg-white px-4 py-3 border-l-4 border-primary items-center rounded-sm shadow-sm">
+        <span className="text-primary font-medium">Portefeuilles</span>
+
+        <div className="flex flex-wrap gap-2 items-center">
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Rechercher un portefeuille…"
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1) }}
+              className="pl-9 w-64"
+            />
+            <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Début</span>
+            <Input type="date" value={pendingStart} onChange={(e) => setPendingStart(e.target.value)} className="w-40" />
+            <span className="text-sm text-gray-600">Fin</span>
+            <Input type="date" value={pendingEnd} onChange={(e) => setPendingEnd(e.target.value)} className="w-40" />
+            <Button variant="secondary" onClick={onApplyFilters}>Appliquer</Button>
+            <Button variant="outline" onClick={onResetFilters}>Réinitialiser</Button>
+          </div>
+
+          <Select value={sort} onValueChange={(v:any) => { setSort(v); setPage(1) }}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Trier par" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="created_desc">Création ↓</SelectItem>
+              <SelectItem value="created_asc">Création ↑</SelectItem>
+              <SelectItem value="name_asc">Nom A→Z</SelectItem>
+              <SelectItem value="name_desc">Nom Z→A</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <CreatePortfolioSheet onSuccess={() => refetch()} />
         </div>
+      </div>
+
+      <div className="p-4 bg-white rounded-sm shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 h-72 overflow-y-scroll">
+          {isLoadingDataPortfolios || isFetching
+            ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-md bg-gray-200" />)
+            : dataPortfolios?.results.map((p: any) => (
+                <PortefolioCard key={p.id} portfolio={p} />
+              ))
+          }
+          {!isLoadingDataPortfolios && dataPortfolios?.results?.length === 0 && (
+            <div className="col-span-full text-sm text-gray-500">Aucun portefeuille trouvé avec ces critères.</div>
+          )}
+        </div>
+      </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" onClick={() => setPage((prev) => Math.max(prev - 1, 1))} />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">{page}</PaginationLink>
+          </PaginationItem>
+          {dataPortfolios?.next && (
+            <PaginationItem>
+              <PaginationNext href="#" onClick={() => setPage((prev) => prev + 1)} />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
+    </div>
   )
 }
 

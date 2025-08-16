@@ -1,7 +1,8 @@
 // dashboard/_lib/hooks/simulation.ts
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createHoldings, createPortfolio, getCryptoMap, getCryptoRelations, getCryptoReturnsForPortfolio, getPortfolio, HoldingData, PortfolioData, simulatePortfolio } from "../api/simulation";
 import { getPortfolios } from "../api/simulation";
+import { toast } from "sonner";
 
 
 export const useCryptoRelations = (type: string, period: string, lag: number) => {
@@ -63,10 +64,21 @@ export const usePortfolio = ({id}:{id:number|string})=>{
 
 
 export const useSimulatePortfolio = () => {
+  const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (id: number) => simulatePortfolio(id),
-  });
-};
+    mutationFn: (id: number) => simulatePortfolio(id),
+    onSuccess: (_data, id) => {
+      // force un refetch immédiat
+      qc.invalidateQueries({ queryKey: ["portfolio", id] })
+      qc.invalidateQueries({ queryKey: ["portfolio-returns", id] })
+    },
+    onError: (err: any) => {
+      // axios
+      const msg = err?.response?.data?.error || err?.message || "Échec de la simulation"
+      toast.error(msg)
+    }
+  })
+}
 
 export const useCryptoReturnsForPortfolio = (portfolioId: number | string) => {
   return useQuery({
