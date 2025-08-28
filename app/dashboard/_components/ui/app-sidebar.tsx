@@ -26,8 +26,8 @@ const items = [
     icon :  <Umbrella style={{height: 16, width:16}} strokeWidth={2} />, 
   },
   {
-    title: "Actualités",
-    url:"/dashboard/market", 
+    title: "Assistant",
+    url:"/dashboard/assist", 
     icon : <Newspaper style={{height: 16, width:16}} strokeWidth={2} /> , 
   },
 ]
