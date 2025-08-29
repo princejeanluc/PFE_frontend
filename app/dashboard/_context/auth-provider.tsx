@@ -1,9 +1,9 @@
-// app/_context/auth-provider.tsx
+// dashboard/_context/auth-provider.tsx
 "use client";
 
 import React from "react";
 import { SessionProvider, useSession } from "next-auth/react";
-import { clearAuthTokens, setAuthTokens } from "../dashboard/_lib/axiosinstance";
+import { setAuthTokens, clearAuthTokens } from "../_lib/axiosinstance";
 
 function TokensBridge() {
   const { data } = useSession();

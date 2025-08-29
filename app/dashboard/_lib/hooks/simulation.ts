@@ -1,6 +1,6 @@
 // dashboard/_lib/hooks/simulation.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createHoldings, createPortfolio, getCryptoMap, getCryptoRelations, getCryptoReturnsForPortfolio, getPortfolio, HoldingData, PortfolioData, simulatePortfolio } from "../api/simulation";
+import { createHoldings, createPortfolio, deletePortfolio, getCryptoMap, getCryptoRelations, getCryptoReturnsForPortfolio, getPortfolio, HoldingData, PortfolioData, simulatePortfolio } from "../api/simulation";
 import { getPortfolios } from "../api/simulation";
 import { toast } from "sonner";
 
@@ -88,3 +88,19 @@ export const useCryptoReturnsForPortfolio = (portfolioId: number | string) => {
   });
 };
 
+export const useDeletePortfolio = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => deletePortfolio(id),
+    onSuccess: (_data, id) => {
+      // rafraîchir la liste et le détail si ouverts
+      qc.invalidateQueries({ queryKey: ["portfolios"] });
+      qc.invalidateQueries({ queryKey: ["portfolio", id] });
+      qc.invalidateQueries({ queryKey: ["crypto-returns", id] });
+      toast.success("Portefeuille supprimé.");
+    },
+    onError: (err: any) => {
+      toast.error(err?.message || "Suppression impossible.");
+    },
+  });
+};

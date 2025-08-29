@@ -146,7 +146,7 @@ function ChatPanel() {
         </label>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-4 min-h-[240px] bg-white">
+      <div className="border rounded-lg p-4 space-y-4 h-124 bg-white overflow-y-scroll">
         {thread.length === 0 && (
           <p className="text-sm text-zinc-500">
             Pose une question (ex: “Donne-moi 3 points clés sur la semaine crypto”).

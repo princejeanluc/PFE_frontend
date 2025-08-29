@@ -111,3 +111,20 @@ export const getCryptoReturnsForPortfolio = async (id: number) => {
   }
 };
 
+export const deletePortfolio = async (id: number) => {
+  try {
+    const res = await api.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/${id}/`
+    );
+    return res.data;
+  } catch (error: any) {
+    // remonte un message propre (DRF: {detail: "..."} ou {error: "..."} ou 403/404)
+    const msg =
+      error?.response?.data?.error ||
+      error?.response?.data?.detail ||
+      "Échec de la suppression du portefeuille";
+    throw new Error(msg);
+  }
+};
+
+

@@ -3,12 +3,12 @@ import { Input } from '@/components/ui/input'
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui/pagination'
 import { Search } from 'lucide-react'
 import React, { useEffect, useMemo, useState } from 'react'
-import { usePortfolios } from '../../_lib/hooks/simulation'
 import CreatePortfolioSheet from './createportfoliosheetT'
 import PortefolioCard from './portefoliocard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { usePortfolios } from '../../_lib/hooks/simulation'
 
 function useDebounced<T>(value: T, delay = 500) {
   const [v, setV] = useState(value)
@@ -77,11 +77,11 @@ function ListPortFolioComponent() {
       </div>
 
       <div className="p-4 bg-white rounded-sm shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 h-72 overflow-y-scroll">
+        <div className="grid gap-4   md:h-64 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))] overflow-y-scroll">
           {isLoadingDataPortfolios || isFetching
             ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-md bg-gray-200" />)
             : dataPortfolios?.results.map((p: any) => (
-                <PortefolioCard key={p.id} portfolio={p} />
+                <PortefolioCard key={p.id} portfolio={p} onDeleted={() => refetch()}/>
               ))
           }
           {!isLoadingDataPortfolios && dataPortfolios?.results?.length === 0 && (
