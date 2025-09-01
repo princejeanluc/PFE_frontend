@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "noEmit": true,
+    "strict": false, // désactive tout le mode strict
+    "noImplicitAny": false, // autorise les any implicites
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true, // ne vérifie pas les types des libs
+    "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "noImplicitAny": false,
-    "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "noEmit": true,
+    "module": "esnext",
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
