@@ -1,10 +1,9 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import Titlebar from '../_components/ui/titlebar'
 import { ChartAreaInteractive } from '../_components/ui/chartareaInteractive'
 import { ActuAndTopCrypto } from '../_components/ui/actuandtopcrypto'
 import MarketInfoCard from '../_components/ui/marketinfocard'
-import { listCrypto } from '../_components/constants/constants'
 import { useMarketIndicators } from '../_lib/hooks/market'
 import { Skeleton } from '@/components/ui/skeleton'
 import LatestCryptoInfoComponent from '../_components/ui/latestcryptoinfo'
@@ -13,8 +12,6 @@ import LatestCryptoInfoComponent from '../_components/ui/latestcryptoinfo'
 function page() {
   const { data, isLoading } = useMarketIndicators()
   
-
-
   return (
     <div className='p-2 grid grid-cols-1 gap-4'>
       <Titlebar title={'Marché'}/>
