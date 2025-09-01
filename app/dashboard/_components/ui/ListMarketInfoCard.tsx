@@ -7,7 +7,8 @@ function ListMarketInfoCard() {
     
   const { data, isLoading } = useMarketIndicators()
   return (
-    <div>{
+    <div className='grid grid-cols-2 lg:grid-cols-5 gap-2 '>
+          {
           isLoading ? (
             Array.from({ length: 5 }).map((_, idx) => (
               <Skeleton key={idx} className="bg-gray-200 rounded-sm h-30 w-full" />
@@ -17,7 +18,8 @@ function ListMarketInfoCard() {
               <MarketInfoCard key={idx} marketinfo={marketinfo} />
             ))
           )
-        }</div>
+        }
+      </div>
   )
 }
 
