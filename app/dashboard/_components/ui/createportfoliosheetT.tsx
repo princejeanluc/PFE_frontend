@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 
-import { useCreateHoldings, useCreatePortfolio, usePortfolios } from '../../_lib/hooks/simulation'
+import { useCreateHoldings, useCreatePortfolio } from '../../_lib/hooks/simulation'
 import { getCryptoList } from '../../_lib/api/market'
 import { toast } from "sonner"
 import { Badge } from '@/components/ui/badge'

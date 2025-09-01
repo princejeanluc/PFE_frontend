@@ -1,17 +1,13 @@
 'use client'
 import {
   ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  CartesianGrid,
-  Legend,
-  ZAxis
-} from 'recharts'
+  CartesianGrid} from 'recharts'
 import Image from 'next/image'
 import { useCryptoMap } from '../../_lib/hooks/simulation'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useMemo, useState } from 'react'
 import ClusterSummaryTable from './clustersummarytable'
 import { clusterColors } from '../constants/constants'
-import { memo } from 'react'
 
 const SvgDot = ({ cx, cy, payload }: any) => {
   const color = clusterColors[payload.cluster] || '#A0AEC0';

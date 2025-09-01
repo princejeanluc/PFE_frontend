@@ -2,7 +2,7 @@
 import { Input } from '@/components/ui/input'
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from '@/components/ui/pagination'
 import { Search } from 'lucide-react'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CreatePortfolioSheet from './createportfoliosheetT'
 import PortefolioCard from './portefoliocard'
 import { Skeleton } from '@/components/ui/skeleton'

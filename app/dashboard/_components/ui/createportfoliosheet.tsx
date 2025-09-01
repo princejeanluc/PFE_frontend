@@ -27,7 +27,7 @@ function CreatePortfolioSheet() {
         <SheetHeader>
           <SheetTitle>Création Portefeuille</SheetTitle>
           <SheetDescription>
-            Effectuer la configuration de votre portefeuille. Cliquer sur Ok "Sauvegarder" Lorsque vous avez fini.
+            Effectuer la configuration de votre portefeuille. Cliquer sur Ok &quot;Sauvegarder&quot; Lorsque vous avez fini.
           </SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-6 px-4">

@@ -4,21 +4,8 @@ import {ResponsiveHeatMap} from '@nivo/heatmap'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useCryptoRelations } from '../../_lib/hooks/simulation'
 
-const tickers:string[] = [
-  'BTC', 'ETH', 'BNB', 'SOL', 'ADA', 'XRP', 'DOT', 'DOGE', 'TRX', 'AVAX',
-  'LTC', 'MATIC', 'ATOM', 'LINK', 'NEAR', 'UNI', 'ETC', 'XLM', 'FIL', 'APT'
-]
 
 // Générer une matrice fictive de corrélations entre 0.3 et 1
-const generateCorrelationData = () => {
-  return tickers.map((row, i) => ({
-    id: row,
-    data: tickers.map((col, j) => ({
-      x: col,
-      y: j < i ? null : i === j ? 1 : +(Math.random() * 0.7 + 0.3).toFixed(2)
-    }))
-  }))
-}
 
 function RelationMap() {
     const [type, setType] = useState<'spearman' | 'granger'>('spearman')

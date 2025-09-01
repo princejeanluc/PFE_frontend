@@ -8,7 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ChartNetwork, ChartNoAxesCombined, Newspaper, Umbrella, Wallet } from "lucide-react";
+import { ChartNetwork, ChartNoAxesCombined, Newspaper, Umbrella} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";

@@ -52,7 +52,7 @@ export const authOptions = {
     ,
   ],
     callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user, account}) {
       if (account?.provider === 'google') {
         // Ici, l'utilisateur vient juste de se connecter
         // console.log("google provider called")
@@ -86,7 +86,7 @@ export const authOptions = {
       return token;
     },
 
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // console.log("session called")
       // console.log("token in session" , token)
       session.user.id = token.id;
@@ -98,7 +98,7 @@ export const authOptions = {
       
       return session;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({ }) {
     // On redirige toujours vers le dashboard après login
     return '/dashboard/market';
     }

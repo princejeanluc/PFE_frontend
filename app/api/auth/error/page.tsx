@@ -7,7 +7,7 @@ export default function AuthErrorPage() {
 
   return (
     <div>
-      <h1>Erreur d'authentification</h1>
+      <h1>Erreur authentification</h1>
       <p>Erreur : {error}</p>
       <p>
         Consulte la documentation NextAuth pour comprendre le message. <br />

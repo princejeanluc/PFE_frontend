@@ -6,7 +6,7 @@ const PortfolioPieChart = ({ holdings }) => {
   if (!holdings || holdings.length === 0) {
     return (
       <div className="h-full w-full bg-white rounded-xl p-8 min-h-64 flex items-center justify-center text-gray-400">
-        Aucune donnée d'allocation disponible.
+        Aucune donnée d&apos;allocation disponible.
       </div>
     );
   }
