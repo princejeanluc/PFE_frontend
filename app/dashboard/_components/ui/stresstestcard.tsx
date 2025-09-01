@@ -112,16 +112,15 @@ function ResultPanel({ result }: { result: ApplyResult | null }) {
 export default function StressTestsCard() {
   // ---- paramètres du hook paginé
   const [page, setPage] = React.useState(1)
-  const [pageSize, setPageSize] = React.useState(10)
-  const [search, setSearch] = React.useState('')
-  const [start, setStart] = React.useState('')
-  const [end, setEnd] = React.useState('')
+  const [pageSize,] = React.useState(10)
+  const [search,] = React.useState('')
+  const [start, ] = React.useState('')
+  const [end, ] = React.useState('')
 
   // ---- portefeuilles (paginated)
   const { data: pfData, isLoading: loadingPfs } = usePortfolios({ page, pageSize, search, start, end })
   const portfolios: any[] = React.useMemo(() => {
     if (!pfData) return []
-    // @ts-expect-error support deux formats
     return Array.isArray(pfData) ? pfData : (pfData.results ?? [])
   }, [pfData])
 
