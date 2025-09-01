@@ -341,6 +341,7 @@ function ChatPanel() {
                 </div>
               ) : (
                 <div className="inline-block rounded-2xl px-3 py-2 border max-w-[85%]">
+                  
                   <MarkdownViewer markdown={m.content} />
                 </div>
               )}

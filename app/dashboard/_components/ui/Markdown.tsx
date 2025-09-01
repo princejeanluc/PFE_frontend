@@ -13,6 +13,14 @@ import cn from "classnames";
 import copy from "copy-to-clipboard";
 import { Copy } from "lucide-react";
 
+function normalizeMd(src: string) {
+  // Trim and remove a surrounding fenced block like ```md ... ```
+  const trimmed = src.trim();
+  const fence = /^```[a-zA-Z0-9_-]*\n([\s\S]*?)\n```$/m;
+  const m = trimmed.match(fence);
+  return m ? m[1].trim() : trimmed;
+}
+
 // Autorise className sur <code> pour le highlight
 const schema = {
   ...defaultSchema,
@@ -121,7 +129,7 @@ export default function Markdown({
           },
         }}
       >
-        {content}
+        { normalizeMd(content)}
       </ReactMarkdown>
     </div>
   );

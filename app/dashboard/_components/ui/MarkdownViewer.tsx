@@ -1,15 +1,11 @@
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+// app/_components/ui/MarkdownViewer.tsx
 import Markdown from "./Markdown";
 
-type Props = { markdown?: string };
-
-export default function MarkdownViewer({ markdown }: Props) {
+export default function MarkdownViewer({ markdown }: { markdown?: string }) {
   if (!markdown) return null;
   return (
     <div className="prose prose-zinc dark:prose-invert max-w-none">
-        {markdown && <Markdown content={markdown} className="mt-4" />}
+      <Markdown content={markdown} className="mt-2" />
     </div>
   );
 }
