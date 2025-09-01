@@ -1,4 +1,4 @@
-// pages/api/auth/error.tsx
+'use client'
 import { useRouter } from 'next/router';
 
 export default function AuthErrorPage() {
