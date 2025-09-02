@@ -77,7 +77,7 @@ function ListPortFolioComponent() {
       </div>
 
       <div className="p-4 bg-white rounded-sm shadow-sm">
-        <div className="grid gap-4   md:h-64 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))] overflow-y-scroll">
+        <div className="grid gap-4   md:h-72 [grid-template-columns:repeat(auto-fit,minmax(340px,1fr))] overflow-y-scroll">
           {isLoadingDataPortfolios || isFetching
             ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-40 w-full rounded-md bg-gray-200" />)
             : dataPortfolios?.results.map((p: any) => (

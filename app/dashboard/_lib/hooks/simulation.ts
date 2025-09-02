@@ -38,13 +38,14 @@ export const usePortfolios = ({
   pageSize,
   search,
   start, 
-  end
+  end,
 }: {
   page: number;
   pageSize: number;
   search: string;
   start: string;
   end: string;
+  sort:string;
 }) => {
   return useQuery({
     queryKey: ["portfolios", page, pageSize, search, start , end],
