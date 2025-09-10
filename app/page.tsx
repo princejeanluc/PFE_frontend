@@ -24,7 +24,7 @@ function NavBar() {
         <nav className="hidden md:flex items-center gap-5 text-sm">
           <Link href="/" className="hover:text-indigo-600">Accueil</Link>
           <Link href="/dashboard/market" className="hover:text-indigo-600">Marché</Link>
-          <Link href="/dashboard/assist" className="hover:text-indigo-600">News</Link>
+          <Link href="/dashboard/assist" className="hover:text-indigo-600">Assistant News</Link>
           <Link href="/dashboard/risk" className="hover:text-indigo-600">Gestion de risque</Link>
           <Link href="/dashboard/simulation" className="hover:text-indigo-600">Simulation</Link>
         </nav>
@@ -145,7 +145,7 @@ function Features() {
     </section>
   );
 }
-
+/*
 function BigVisual() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-16">
@@ -153,14 +153,14 @@ function BigVisual() {
         variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}
         className="relative rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800"
       >
-        {/* Remplace par une capture de ton dashboard ou une animation Lottie si tu veux */}
+        
         <div className="aspect-[16/9] bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center">
           <span className="text-sm text-zinc-500">Place ici une capture ou illustration de ton dashboard</span>
         </div>
       </motion.div>
     </section>
   );
-}
+}*/
 
 function Footer() {
   return (
@@ -201,7 +201,6 @@ export default function LandingPage() {
       <Hero />
       <Features />
       <ScrollBGShowcase sections={SECTIONS} />
-      <BigVisual />
       <Footer />
     </main>
   );
