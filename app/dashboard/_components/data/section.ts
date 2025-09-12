@@ -42,7 +42,7 @@ export const SECTIONS: BGSection[] = [
   },
   {
     title: "Assistant",
-    bg: "/landing/assistant-bg.webp",
+    bg: "/landing/assistant.png",
     features: ["Brief actu (titres)", "Chat prudent", "Liens sources"],
     href: "/dashboard/assist",
     align: "center",

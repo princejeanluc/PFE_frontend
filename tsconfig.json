@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "strict": false, // désactive tout le mode strict
-    "noImplicitAny": false, // autorise les any implicites
-    "suppressImplicitAnyIndexErrors": true,
+    "strict": true, // désactive tout le mode strict
+    "noImplicitAny": true, // autorise les any implicites
     "skipLibCheck": true, // ne vérifie pas les types des libs
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,

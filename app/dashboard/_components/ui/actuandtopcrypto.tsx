@@ -55,12 +55,12 @@ export function ActuAndTopCrypto() {
             </TableHeader>
             <TableBody>
               {data.map(
-                (crypto)=>{
+                (crypto:any)=>{
                   return <TableRow className="bg-side-bar" key ={crypto.symbol}>
                             <TableCell className="font-medium text-center text-black">
                               <Image src={crypto.image_url} width={30} height={30} alt={crypto.slug}></Image>
                             </TableCell>
-                            <TableCell className="font-medium text-center text-black">{crypto.symbol}</TableCell>
+                            <TableCell className="font-medium text-center text-black">{crypto.name}</TableCell>
                             <TableCell className="font-medium text-center text-black">$ {crypto.current_price?.toFixed(2)}</TableCell>
                             <TableCell className={cn("flex text-center items-center gap-2", {"text-green-400":crypto.price_change_24h>=0,"text-red-400":crypto.price_change_24h<0})}> {crypto.price_change_24h>0 ? <TrendingUp></TrendingUp>: <TrendingDown></TrendingDown>}{crypto.price_change_24h} %</TableCell>
                             <TableCell>{Math.round(crypto.market_cap)}</TableCell>

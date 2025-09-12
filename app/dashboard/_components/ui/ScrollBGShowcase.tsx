@@ -36,7 +36,7 @@ function Panel({ s }: { s: BGSection }) {
       }}
     >
       {/* Gradient de lisibilité */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent dark:from-black/40" />
+      {/*<div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent dark:from-black/40" />*/}
 
       {/* Contenu */}
       <div className={clsx(
