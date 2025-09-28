@@ -29,7 +29,7 @@ const SvgDot = ({ cx, cy, payload }: any) => {
 }
 
 
-
+/*
 const CustomDot = (props: any) => {
   const { cx, cy, payload } = props
   const borderColor = clusterColors[payload.cluster] || '#999'
@@ -50,7 +50,7 @@ const CustomDot = (props: any) => {
     </foreignObject>
   )
 }
-
+*/
 const formatPct = (x:number) => `${(x*100).toFixed(2)}%`;
 const formatNum = (x:number) =>
   x >= 1e9 ? `${(x/1e9).toFixed(2)}B` :

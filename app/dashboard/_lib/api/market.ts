@@ -21,7 +21,7 @@ export const getMarketIndicators = async ()=>{
         const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/market/indicators/`);
         return response.data;
       } catch (error) {
-        throw new Error("Erreur lors du chargement des indicateurs");
+        throw new Error(`Erreur lors du chargement des indicateurs ${error}`);
       }
 }
 
@@ -31,7 +31,7 @@ export const getCryptoChartData = async (symbol: string, range: string) => {
     const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/market/history/?symbol=${symbol}&range=${range}`);
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des données du graphique");
+    throw new Error(`Erreur lors du chargement des données du graphique ${error}`);
   }
 };
 
@@ -53,7 +53,7 @@ export const getLatestCryptoInfo = async ({
     );
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des dernières données des cryptos");
+    throw new Error(`Erreur lors du chargement des dernières données des cryptos ${error}`);
   }
 };
 
@@ -63,7 +63,7 @@ export const getPorfolios = async () => {
     const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/`);
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des portfolios");
+    throw new Error(`Erreur lors du chargement des portfolios ${error}`);
   }
 };
 
@@ -75,7 +75,7 @@ export const getLatestNews = async () => {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des actualités récentes");
+    throw new Error(`Erreur lors du chargement des actualités récentes ${error}`);
   }
 };
 
@@ -86,7 +86,7 @@ export const getTopCryptos = async () => {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des top cryptos");
+    throw new Error(`Erreur lors du chargement des top cryptos ${error}`);
   }
 };
 

@@ -11,7 +11,7 @@ export const  getCryptoRelations= async (type: string, period: string, lag: numb
         return response.data
      }
      catch(error){
-        throw new Error("Erreur lors du chargement des données du graphique crypto-relations");
+        throw new Error(`Erreur lors du chargement des données du graphique crypto-relations ${error}`);
      }
 }
 
@@ -22,7 +22,7 @@ export const  getCryptoMap= async ()=>{
         return response.data
      }
      catch(error){
-        throw new Error("Erreur lors du chargement des données du graphique crypto-relations");
+        throw new Error(`Erreur lors du chargement des données du graphique crypto-relations ${error}`);
      }
 }
 
@@ -47,7 +47,7 @@ export const createPortfolio = async (data: PortfolioData) => {
     const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/`, data)
     return response.data
   } catch (error) {
-    throw new Error("Erreur lors de la création du portefeuille")
+    throw new Error(`Erreur lors de la création du portefeuille ${error}`)
   }
 }
 
@@ -56,7 +56,7 @@ export const createHoldings = async (data: HoldingData[]) => {
     const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/holdings/`, data)
     return response.data
   } catch (error) {
-    throw new Error("Erreur lors de l'enregistrement des allocations")
+    throw new Error( `Erreur lors de l'enregistrement des allocations ${error}`)
   }
 }
 
@@ -82,7 +82,7 @@ export const getPortfolios = async ({
     );
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des portfolios de l'utilisateur");
+    throw new Error( `Erreur lors du chargement des portfolios de l'utilisateur ${error}`);
   }
 };
 
@@ -92,7 +92,7 @@ export const  getPortfolio= async ({id}:{id: number})=>{
         return response.data
      }
      catch(error){
-        throw new Error("Erreur lors du chargement des données du graphique crypto-relations");
+        throw new Error( `Erreur lors du chargement des données du graphique crypto-relations ${error}`);
      }
 }
 
@@ -107,7 +107,7 @@ export const getCryptoReturnsForPortfolio = async (id: number) => {
     const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/portfolios/${id}/crypto-returns/`);
     return response.data;
   } catch (error) {
-    throw new Error("Erreur lors du chargement des rendements des cryptos du portefeuille");
+    throw new Error( `Erreur lors du chargement des rendements des cryptos du portefeuille ${error}`);
   }
 };
 

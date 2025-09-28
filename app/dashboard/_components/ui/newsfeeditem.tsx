@@ -1,9 +1,6 @@
 import React from 'react'
-import { newsFeedItemType } from '../types'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
-import { formatTimeAgo } from '../../_lib/displaytime'
 import { formatDistanceToNow } from 'date-fns'
-import { fr } from 'date-fns/locale'
 import _ from 'lodash'
 import Link from 'next/link'
 

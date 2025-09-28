@@ -68,7 +68,7 @@ export default function RiskSimulatorCard() {
   }, [loadingCryptos, cryptos]) // eslint-disable-line
 
   // 4) Récupération (garde l'ancien résultat visible pendant un fetch)
-  const { data, isLoading, isError, isFetching, refetch, error, cancel } =
+  const { data, isError, isFetching, error, cancel } =
     useRiskSimulation(params?.symbol, params?.horizon, params?.nSims, {
       enabled: !!params,                // pas d'auto-run au montage
       keepPreviousData: true,           // UX: pas de flash vide
@@ -99,8 +99,8 @@ export default function RiskSimulatorCard() {
   }
 
   // 7) Lignes de graphes
-  let priceRows: any[] = [], volRows: any[] = []
-  try { priceRows = buildPriceRows(safeData, 8); volRows = buildVolRows(safeData) } catch { /* no-op */ }
+  let priceRows: any[] = []//, volRows: any[] = []
+  try { priceRows = buildPriceRows(safeData, 8); /*volRows = buildVolRows(safeData) */} catch { /* no-op */ }
 
   // 8) Messages / UI
   const backendMsg =

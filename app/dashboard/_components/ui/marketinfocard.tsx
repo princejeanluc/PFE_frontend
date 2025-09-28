@@ -3,7 +3,6 @@ import {
   CardContent
 } from "@/components/ui/card"
 import React from 'react'
-import { marketInfo } from "../types"
 import { cn } from "@/lib/utils"
 import { flagscolors } from "../constants/constants"
 import { ArrowBigDown} from "lucide-react"

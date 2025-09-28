@@ -32,13 +32,13 @@ export type Portfolio = {
   allocation_type: string;
   holdings: Holding[];
 };
-
+/*
 const money = new Intl.NumberFormat("fr-FR", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 2,
 });
-
+*/
 export default function PortfolioCard({
   portfolio,
   onDeleted,

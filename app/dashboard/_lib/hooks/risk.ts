@@ -54,7 +54,7 @@ export const useOptionPricing = () => {
       }
     },
     // facultatif: ne pas afficher d'erreur si c'est une annulation volontaire
-    onError: (err: any, _vars, _ctx) => {
+    onError: (err: any,) => {
       // Axios >=1 : err.code === 'ERR_CANCELED'
       // Node DOM: err.name === 'AbortError'
       if (err?.code === 'ERR_CANCELED' || err?.name === 'AbortError') {

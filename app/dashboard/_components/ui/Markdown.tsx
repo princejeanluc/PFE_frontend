@@ -12,6 +12,7 @@ import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import cn from "classnames";
 import copy from "copy-to-clipboard";
 import { Copy } from "lucide-react";
+import Image from "next/image";
 
 function normalizeMd(src: string) {
   // Trim and remove a surrounding fenced block like ```md ... ```
@@ -100,7 +101,8 @@ export default function Markdown({
           th: (p) => <th {...p} className="bg-zinc-50 p-3 text-left font-medium" />,
           td: (p) => <td {...p} className="border-t p-3 align-top" />,
           img: ({ src = "", alt = "" }) => (
-            <img src={src} alt={alt} className="rounded-xl border" />
+            <Image src={src.toString()} alt={alt} className="rounded-xl border" />
+            
           ),
           code({ inline, className, children, ...props }) {
             const txt = String(children ?? "");

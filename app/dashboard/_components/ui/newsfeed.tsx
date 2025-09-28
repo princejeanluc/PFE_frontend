@@ -1,4 +1,4 @@
-import { newsFeedList } from '../constants/constants'
+
 import React from 'react'
 import NewsFeedItem from './newsfeeditem'
 import { useLatestNews } from '../../_lib/hooks/market';
