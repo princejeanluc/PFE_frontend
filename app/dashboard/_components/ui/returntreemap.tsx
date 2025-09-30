@@ -4,7 +4,7 @@ import { Treemap, ResponsiveContainer } from 'recharts'
 
 
 
-const getColorByReturn = (r) => {
+const getColorByReturn = (r:number) => {
   if (r > 10) return '#52c41a';
   if (r > 0) return '#b7eb8f';
   if (r === 0) return '#d9d9d9';
@@ -12,7 +12,7 @@ const getColorByReturn = (r) => {
   return '#cf1322';
 };
 
-const getTextColorFromBg = (bgColor) => {
+const getTextColorFromBg = (bgColor:string) => {
   const hex = bgColor.replace('#', '');
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
@@ -21,12 +21,12 @@ const getTextColorFromBg = (bgColor) => {
   return luminance > 200 ? '#000' : '#fff';
 };
 
-const getFontSize = (width, height, max = 16, min = 8) => {
+const getFontSize = (width:number, height:number, max = 16, min = 8) => {
   const base = Math.min(width / 6, height / 2.5);
   return Math.max(min, Math.min(max, base));
 };
 
-const CustomNode = (props) => {
+const CustomNode = (props:any) => {
   const { x, y, width, height, name, return: r, depth } = props;
   if (depth === 0 || r === undefined) return null;
 
@@ -72,9 +72,9 @@ const CustomNode = (props) => {
   );
 };
 
-const ReturnTreeMap = ({ returns }) => {
+const ReturnTreeMap = ({ returns}:{returns:any}) => {
   console.log("returns",returns)
-  const data = returns.map(({ symbol, cumulative_return }) => ({
+  const data = returns.map(({ symbol, cumulative_return }:{symbol:string, cumulative_return:number }) => ({
     name: symbol,
     return: cumulative_return * 100,
     value: Math.abs(cumulative_return * 100),

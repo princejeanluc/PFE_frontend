@@ -2,7 +2,7 @@
 
 import { ResponsivePie } from '@nivo/pie';
 
-const PortfolioPieChart = ({ holdings }) => {
+const PortfolioPieChart = ({ holdings }:{ holdings:any }) => {
   if (!holdings || holdings.length === 0) {
     return (
       <div className="h-full w-full bg-white rounded-xl p-8 min-h-64 flex items-center justify-center text-gray-400">
@@ -11,7 +11,7 @@ const PortfolioPieChart = ({ holdings }) => {
     );
   }
 
-  const allocationData = holdings.map((h) => ({
+  const allocationData = holdings.map((h:any) => ({
     id: h.crypto_detail.symbol.toUpperCase(),
     label: h.crypto_detail.symbol.toUpperCase(),
     value: parseFloat(h.allocation_percentage),

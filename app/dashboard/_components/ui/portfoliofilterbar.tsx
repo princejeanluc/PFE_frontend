@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
-export default function PortfolioFilterBar({ onFilter }) {
+export default function PortfolioFilterBar({ onFilter }:{onFilter:any}) {
   const [name, setName] = useState("")
   const [crypto, setCrypto] = useState("")
   
