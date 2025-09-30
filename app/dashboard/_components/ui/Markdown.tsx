@@ -104,8 +104,9 @@ export default function Markdown({
             <Image src={src.toString()} alt={alt} className="rounded-xl border" />
             
           ),
-          code({ inline, className, children, ...props }) {
+          code({ className, children, ...props }) {
             const txt = String(children ?? "");
+            /* Property 'inline' does not exist on type 'ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps'
             if (inline) {
               return (
                 <code
@@ -115,7 +116,7 @@ export default function Markdown({
                   {txt}
                 </code>
               );
-            }
+            }*/
             const lang = (className || "").replace("language-", "") || "text";
             return (
               <pre className="relative rounded-xl border bg-white p-4">
