@@ -76,7 +76,7 @@ export default function RiskSimulatorCard() {
       retry: 0,
     })
 
-  const safeData = data ?? {
+  const safeData:any = data ?? {
     history: { timestamps: [], prices: [] },
     forecast_timestamps: [],
     paths: [],

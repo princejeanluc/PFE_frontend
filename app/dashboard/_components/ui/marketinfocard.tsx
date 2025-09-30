@@ -16,7 +16,7 @@ import { ArrowBigDown} from "lucide-react"
 }*/
 
 
-function MarketInfoCard({marketinfo}) {
+function MarketInfoCard({marketinfo}:{marketinfo:any}) {
   return (
     <Card className="py-4 rounded-sm">
         <CardContent className="flex flex-col gap-2">
