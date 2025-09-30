@@ -19,7 +19,6 @@ export const useRiskSimulation = (
   const q = useQuery<RiskApiResponse>({
     queryKey: ["risk-sim", symbol, horizonHours, nSims],
     enabled: Boolean(options?.enabled && symbol && horizonHours && nSims),
-    keepPreviousData: options?.keepPreviousData ?? true,
     staleTime: options?.staleTime ?? 5 * 60 * 1000,
     retry: options?.retry ?? 0,
     refetchOnWindowFocus: options?.refetchOnWindowFocus ?? false,

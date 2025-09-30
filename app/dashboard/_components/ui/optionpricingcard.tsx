@@ -297,10 +297,7 @@ export default function OptionPricingCard() {
             </button>
             {showDetails && (
               <div className="rounded-md border p-3 text-xs text-muted-foreground space-y-1">
-                <div>converged: {String(pricing.data.diagnostics?.converged ?? '—')}</div>
-                <div>time_ms: {pricing.data.diagnostics?.elapsed_ms ?? '—'}</div>
-                <div>rng_seed: {pricing.data.diagnostics?.rng_seed ?? '—'}</div>
-                {/* ajoute d’autres champs si ton backend en renvoie */}
+                <div>Model : {String(pricing.data.diagnostics?.model_used ?? '—')}</div>
               </div>
             )}
           </div>
