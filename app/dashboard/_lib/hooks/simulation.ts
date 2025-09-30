@@ -54,7 +54,7 @@ export const usePortfolios = ({
   });
 };
 
-export const usePortfolio = ({id}:{id:number|string})=>{
+export const usePortfolio = ({id}:{id:number})=>{
   return useQuery({
     queryKey:["portfolio",id], 
     queryFn: async ()=> getPortfolio({id}), 

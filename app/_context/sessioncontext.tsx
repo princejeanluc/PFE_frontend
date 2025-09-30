@@ -1,12 +1,12 @@
 // app/context/SessionContext.tsx
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
+import type { Session } from "next-auth";
+const SessionContext = createContext<Session | null>(null);
 
-const SessionContext = createContext(null);
-
-export const SessionProvider = ({ children }) => {
-  const [session, setSession] = useState(null);
+export const SessionProvider = ({ children }:{children?:ReactNode}) => {
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {

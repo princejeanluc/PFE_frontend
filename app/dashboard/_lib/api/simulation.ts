@@ -39,7 +39,7 @@ export interface PortfolioData {
 export interface HoldingData {
   portfolio: number
   crypto: number
-  weights: number
+  allocation_percentage: number
 }
 
 export const createPortfolio = async (data: PortfolioData) => {

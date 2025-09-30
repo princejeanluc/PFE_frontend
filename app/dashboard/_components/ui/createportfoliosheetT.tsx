@@ -97,7 +97,7 @@ export default function CreatePortfolioSheet({ onSuccess }: { onSuccess: () => v
       } else {
         // auto : crée juste les lignes holdings (alloc% = 0, backend optimisera)
         const payload = selectedCryptos.map(c => ({ portfolio: portfolio.id, crypto: c.id, allocation_percentage: 0, quantity: 0 }))
-        await Promise.all(payload.map(item => createHoldings(item))) // ⚡️ parallèle
+        createHoldings(payload)
         toast.success('Répartition enregistrée')
         setOpen(false); resetState(); onSuccess?.()
       }

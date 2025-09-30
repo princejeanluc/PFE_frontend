@@ -23,7 +23,7 @@ const intervals = [
 
 
 
-const ChartReturns = ({ performances }) => {
+const ChartReturns = ({ performances }: {performances:any[]}) => {
   const [selectedInterval, setSelectedInterval] = useState('3M');
   
   const now = new Date();
@@ -31,7 +31,10 @@ const ChartReturns = ({ performances }) => {
     .filter((perf) => {
       if (selectedInterval === 'ALL') return true;
       const cutoff = new Date(now);
-      cutoff.setDate(cutoff.getDate() - intervals.find(i => i.label === selectedInterval).days);
+      const el  = intervals.find(i => i.label === selectedInterval); 
+      if (el === undefined)
+      {throw Error("la valeur intervals est undefined")}
+      cutoff.setDate(cutoff.getDate() - (el.days | 7));
       return new Date(perf.timestamp) >= cutoff;
     })
     .map((perf) => ({
@@ -41,7 +44,7 @@ const ChartReturns = ({ performances }) => {
       value: perf.value
     }));
 
-  const sorted = [...filteredData].sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sorted = [...filteredData].sort((a, b) => Math.abs((new Date(a.date)).getDate() - (new Date(b.date)).getDate()));
   const first = sorted[0]?.value || 0;
   const last = sorted[sorted.length - 1]?.value || 0;
   const change = last - first;
@@ -81,7 +84,7 @@ const ChartReturns = ({ performances }) => {
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis dataKey="date" axisLine={false} tick={{ fontSize: 10 }} interval={Math.ceil(sorted.length / 6)} />
           <YAxis tickFormatter={(tick) => `$${tick.toFixed(0)}`} axisLine={false} tick={{ fontSize: 12 }} />
-          <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+          <Tooltip formatter={(value) => `$${value}`} />
           <Area type="monotone" dataKey="value" stroke="#7e5bef" fillOpacity={1} fill="url(#colorValue)" />
         </AreaChart>
       </ResponsiveContainer>

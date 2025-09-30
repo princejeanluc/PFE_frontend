@@ -4,11 +4,11 @@ import { clusterColors } from "../constants/constants"
 
 
 
-const computeClusterStats = (points) => {
-  const clusters = {}
+const computeClusterStats = (points:any) => {
+  const clusters:any[] = []
 
-  points.forEach(point => {
-    const cluster = point.cluster ?? "Non classé"
+  points.forEach((point :any) => {
+    const cluster:number = point.cluster ?? "Non classé"
     if (!clusters[cluster]) {
       clusters[cluster] = {
         count: 0,
@@ -37,7 +37,7 @@ const computeClusterStats = (points) => {
   }))
 }
 
-function ClusterSummaryTable({ points }) {
+function ClusterSummaryTable({ points}:{points:any[]}) {
   const stats = useMemo(() => computeClusterStats(points), [points])
 
   return (
@@ -56,7 +56,7 @@ function ClusterSummaryTable({ points }) {
             </tr>
           </thead>
           <tbody>
-            {stats.map((row) => (
+            {stats.map((row:any) => (
               <tr key={row.cluster} className="border-t border-gray-100 hover:bg-gray-50">
                 <td className="px-3 py-1 font-medium text-gray-700">
                   <span className="inline-block w-3 h-3 rounded-full mr-1" style={{ backgroundColor: clusterColors[row.cluster] || "#999" }}></span>
