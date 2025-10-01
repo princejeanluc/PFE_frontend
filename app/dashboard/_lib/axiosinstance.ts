@@ -35,9 +35,11 @@ export const api = axios.create({
 });
 
 // --- Authorization header sur chaque requête ---
-api.interceptors.request.use((config) => {
+api.interceptors.request.use((config: any) => {
   if (accessToken) {
-    config.headers = { ...(config.headers || {}), Authorization: `Bearer ${accessToken}` };
+    // assure-toi que headers existe puis ajoute la propriété Authorization
+    if (!config.headers) config.headers = {};
+    (config.headers as Record<string, string>)["Authorization"] = `Bearer ${accessToken}`;
   }
   return config;
 });

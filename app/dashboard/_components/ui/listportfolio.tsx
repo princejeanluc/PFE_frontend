@@ -29,7 +29,7 @@ function ListPortFolioComponent() {
 
   const pageSize = 12
   const { data: dataPortfolios, isLoading: isLoadingDataPortfolios, refetch, isFetching } =
-    usePortfolios({ page, pageSize, search: debouncedSearch, start: applied.start, end: applied.end, sort })
+    usePortfolios({ page, pageSize, search: debouncedSearch, start: applied.start, end: applied.end })
 
   const onApplyFilters = () => { setApplied({ start: pendingStart, end: pendingEnd }); setPage(1) }
   const onResetFilters = () => { setPendingStart(''); setPendingEnd(''); setApplied({ start: '', end: '' }); setPage(1) }

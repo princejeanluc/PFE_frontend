@@ -127,7 +127,7 @@ function BriefPanel() {
     setToolMsg("Appel aux outils MCP en cours…");
 
     brief.mutate(
-      { since_hours: sinceHours, limit, risk_profile: risk, lang, signal: ac.signal as any },
+      { since_hours: sinceHours, limit, risk_profile: risk, lang},
       {
         onSettled: () => setToolMsg(null),
       }
@@ -269,7 +269,7 @@ function ChatPanel() {
     setToolMsg("L’Assistant consulte les outils MCP…");
 
     chat.mutate(
-      { message, history, lang, risk_profile: risk, signal: ac.signal as any },
+      { message, history, lang, risk_profile: risk},
       {
         onSuccess: (res) =>
           setThread((t) => [...t, { role: "assistant", content: res.markdown }]),
