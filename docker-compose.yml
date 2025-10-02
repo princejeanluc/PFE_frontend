@@ -1,0 +1,19 @@
+services:
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: posa_frontend
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.posa_frontend.rule=Host(`posa.princejeanluc.work`)"
+      - "traefik.http.routers.posa_frontend.entrypoints=websecure"
+      - "traefik.http.routers.posa_frontend.tls=true"
+      - "traefik.http.routers.posa_frontend.tls.certresolver=le"
+      - "traefik.http.services.posa_frontend.loadbalancer.server.port=3000"
+
+networks:
+  web:
+  external: true
