@@ -330,8 +330,8 @@ export default function Page() {
           <section id="law" aria-label="Loi applicable & juridiction">
             <h2>15. Loi applicable & juridiction</h2>
             <p>
-              Ces Conditions sont régies par la loi de <strong>[à compléter : pays/juridiction]</strong>. Tout litige sera soumis à la compétence
-              exclusive des tribunaux de <strong>[à compléter : ville/juridiction]</strong>, sauf dispositions impératives contraires.
+              Ces Conditions sont régies par la loi de <strong>Cameroun</strong>. Tout litige sera soumis à la compétence
+              exclusive des tribunaux de <strong>Douala</strong>, sauf dispositions impératives contraires.
             </p>
           </section>
 
@@ -347,7 +347,7 @@ export default function Page() {
           <section id="contact" aria-label="Contact">
             <h2>17. Contact</h2>
             <p>
-              Pour toute question relative aux présentes : <a href="mailto:contact@votre-domaine.tld" className="underline underline-offset-4">contact@votre-domaine.tld</a>
+              Pour toute question relative aux présentes : <a href="mailto:contact@votre-domaine.tld" className="underline underline-offset-4">princejeanluc.denteppe@gmail.com</a>
             </p>
           </section>
 

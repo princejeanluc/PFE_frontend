@@ -10,7 +10,7 @@ function NewsFeedItem({ newsItem }: { newsItem: any }) {
     <div className="flex flex-row justify-between">
       <div>
         <div className="text-primary font-medium text-sm">
-          <span>{newsItem.source?.name}</span> • <span>{formatDistanceToNow(new Date(newsItem.datetime))}</span>
+          <span>{newsItem.source_name}</span> • <span>{formatDistanceToNow(new Date(newsItem.datetime))}</span>
         </div>
         <div className="text-xs">{_.truncate(newsItem.title, {length:80, omission : "..."})}</div>
       </div>
