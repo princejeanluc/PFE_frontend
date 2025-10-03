@@ -204,8 +204,8 @@ export default function Page() {
           <section id="controller" aria-label="Responsable du traitement">
             <h2>2. Responsable du traitement</h2>
             <p>
-              <strong>[À compléter : Dénomination sociale / Nom du responsable], [Adresse], [Pays]</strong> est responsable du traitement des données.
-              Contact DPO / confidentialité : <a href="mailto:privacy@votre-domaine.tld" className="underline underline-offset-4">privacy@votre-domaine.tld</a>
+              <strong>Prince jean luc de nteppe</strong> est responsable du traitement des données.
+              Contact DPO / confidentialité : <a href="mailto:princejeanluc.denteppe@gmail.com" className="underline underline-offset-4">princejeanluc.denteppe@gmail.com</a>
             </p>
           </section>
 
@@ -238,9 +238,9 @@ export default function Page() {
             </p>
             <ul>
               <li>Données de compte : pendant la vie du compte, puis suppression ou anonymisation dans un délai de <strong>[à compléter : ex. 30 jours]</strong> après clôture.</li>
-              <li>Journaux techniques : <strong>[à compléter : ex. 12 mois]</strong> sauf obligation différente.</li>
-              <li>Données de facturation : <strong>[à compléter : ex. 10 ans]</strong> si applicable.</li>
-              <li>Tickets support : <strong>[à compléter : ex. 24 mois]</strong>.</li>
+              <li>Journaux techniques : <strong>12 mois</strong> sauf obligation différente.</li>
+              <li>Données de facturation : <strong>10 ans</strong> si applicable.</li>
+              <li>Tickets support : <strong>24 mois</strong>.</li>
             </ul>
           </section>
 
@@ -338,7 +338,7 @@ export default function Page() {
           <section id="contact" aria-label="Contact">
             <h2>13. Contact</h2>
             <p>
-              Pour toute question relative à cette politique : <a href="mailto:privacy@votre-domaine.tld" className="underline underline-offset-4">privacy@votre-domaine.tld</a>
+              Pour toute question relative à cette politique : <a href="mailto:princejeanluc.denteppe@gmail.com" className="underline underline-offset-4">princejeanluc.denteppe@gmail.com</a>
             </p>
           </section>
 
@@ -347,19 +347,24 @@ export default function Page() {
           <div className="not-prose flex flex-wrap items-center gap-3">
             <Button onClick={printPage} variant="outline"><Download className="mr-2 h-4 w-4" />Imprimer / PDF</Button>
             <Button variant="secondary" onClick={() => router.push("/privacy/preferences")}>Gérer les cookies</Button>
+            {/* 
             <span className="text-sm text-muted-foreground">Modèle à compléter selon votre juridiction.</span>
+            */}
           </div>
 
           <Card className="not-prose mt-8 border-dashed">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base"><Info className="h-4 w-4" /> Conseils d’intégration</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base"><Info className="h-4 w-4" /> Nous sommes ravi de vous servir du  mieux qu&apos;on peut</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground space-y-2">
               <ul className="list-disc pl-5">
+                <li>n&apos;hésitez pas à nous écrire</li>
+                {/** 
                 <li>Ajoutez un lien vers cette page dans le pied de page, la page d’inscription et le centre de préférences cookies.</li>
                 <li>Si vous utilisez un bandeau cookies, reliez le bouton « Gérer les cookies » à votre composant de consentement.</li>
                 <li>Considérez un <em>server wrapper</em> : `app/privacy/page.tsx` serveur qui importe un composant client pour garder la possibilité d’exporter des `metadata`.</li>
                 <li>Consignez les versions (constante <code>PP_VERSION</code>) et tenez un journal des changements.</li>
+                */}
               </ul>
             </CardContent>
           </Card>
