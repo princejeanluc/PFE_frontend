@@ -187,7 +187,7 @@ export default function Page() {
             <ShieldAlert className="h-4 w-4" />
             <AlertTitle>Information importante</AlertTitle>
             <AlertDescription>
-              Ce texte est un modèle d’information. Il ne constitue pas un conseil juridique. Adaptez les sections signalées « [à compléter] » et faites valider par un juriste.
+              Les informations ci-dessous sont en attente de validation juridique. Donc uniquement à usage informatif avant qu&apos;un cadre juridique plus rigoureux soit mis sur pied.
             </AlertDescription>
           </Alert>
 
@@ -288,7 +288,7 @@ export default function Page() {
             <h2>9. Transferts internationaux</h2>
             <p>
               Si des données sont transférées en dehors de votre juridiction, nous mettons en place des garanties appropriées (ex. clauses
-              contractuelles types) lorsque requis. <strong>[À compléter : localisation principale de l’hébergement]</strong>.
+              contractuelles types) lorsque requis. <strong>Cameroun</strong>.
             </p>
           </section>
 
@@ -305,7 +305,7 @@ export default function Page() {
                 <CardTitle className="flex items-center gap-2 text-base"><UserCheck className="h-4 w-4" /> Exercer vos droits</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                <p>Pour toute demande, contactez‑nous à <a href="mailto:privacy@votre-domaine.tld" className="underline underline-offset-4">privacy@votre-domaine.tld</a> en précisant :</p>
+                <p>Pour toute demande, contactez‑nous à <a href="mailto:princejeanluc.denteppe@gmail.com" className="underline underline-offset-4">princejeanluc.denteppe@gmail.com</a> en précisant :</p>
                 <ul className="list-disc pl-5 mt-2">
                   <li>La nature de la demande (accès, rectification, suppression, portabilité, opposition).</li>
                   <li>L’adresse email liée à votre compte.</li>
