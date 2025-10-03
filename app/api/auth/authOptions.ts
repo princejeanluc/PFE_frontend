@@ -101,10 +101,23 @@ export const authOptions = {
       
       return session;
     },
-    async redirect({ }) {
-    // On redirige toujours vers le dashboard après login
-    return '/dashboard/market';
+    async redirect({ url, baseUrl }:{url:any, baseUrl:any}) {
+    // Allows redirecting to a relative path within the application
+    if (url.startsWith('/')) {
+      return `${baseUrl}${url}`;
     }
+    // Allows redirecting to a different origin if it matches the baseUrl
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.origin === baseUrl) {
+        return url;
+      }
+    } catch (error) {
+      console.error('Invalid URL in redirect:', url, `${error}`);
+    }
+    // Default fallback: redirect to the base URL
+    return baseUrl;
+  },
   },
   pages:{
     signIn:'auth/login', 

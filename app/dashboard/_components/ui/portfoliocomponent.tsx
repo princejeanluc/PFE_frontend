@@ -6,7 +6,6 @@ import ChartReturns from './chartreturns'
 import Titlebar from './titlebar'
 import PortfolioPieChart from './portfoliopiechart'
 import RiskIndicators from './riskindicators'
-import { ActuAndTopCrypto } from './actuandtopcrypto'
 import { toast } from 'sonner'
 import CryptoMiniList from './cryptominilist'
 import { useQueryClient } from '@tanstack/react-query'
@@ -88,13 +87,13 @@ function PortfolioComponent({ portfolioId }: { portfolioId: number | string }) {
   const noSimulation = !data.performances || data.performances.length === 0
 
   return (
-    <div className="relative">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="py-4">
+      <div className="flex items-center justify-between gap-2">
         <Titlebar title={`Portefeuille : ${data.name}`} />
         <button
           onClick={handleSimulate}
           disabled={launchingUI || isPolling}
-          className="bg-primary text-white px-3 py-2 rounded hover:bg-primary/90 text-sm disabled:opacity-60"
+          className="bg-primary text-white px-3 py-1 rounded hover:bg-primary/90 text-xs disabled:opacity-60"
         >
           {launchingUI ? (
               <span className="inline-flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Lancement…</span>
@@ -149,11 +148,14 @@ function PortfolioComponent({ portfolioId }: { portfolioId: number | string }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/*
+            
             <div className="grid grid-cols-1 gap-4">
               <Titlebar title="News associées" />
               <ActuAndTopCrypto />
             </div>
+            */}
             <div className="flex flex-col gap-4">
               <Titlebar title="Allocation" />
               <PortfolioPieChart holdings={data.holdings} />

@@ -49,9 +49,9 @@ export function LoginForm({
       if (!res || res.error) {
         throw new Error("Identifiants incorrects ou compte introuvable.")
       }
-
       router.push(callbackUrl)
     } catch (err: any) {
+      console.log( `call back to ${callbackUrl}`)
       setError(err?.message ?? "Une erreur est survenue.")
     } finally {
       setLoading(false)
