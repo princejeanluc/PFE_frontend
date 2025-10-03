@@ -64,7 +64,7 @@ export function ChartAreaInteractive() {
   return (
     <div className="flex flex-col h-full gap-2 ">
       <Card className="rounded-md p-2 ">
-        <CardContent className="flex justify-between items-center">
+        <CardContent className="flex justify-between items-center text-sm">
           <span>Selectionner </span>
           <Select value={selectedSymbol} onValueChange={setSelectedSymbol}>
             <SelectTrigger className="w-[180px]">

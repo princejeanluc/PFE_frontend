@@ -30,7 +30,7 @@ function Panel({ s }: { s: BGSection }) {
       className="relative w-full min-h-[86vh] md:min-h-[92vh] flex items-center"
       style={{
         backgroundImage: `url(${s.bg})`,
-        backgroundSize: "auto",
+        backgroundSize: "contain",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}

@@ -22,7 +22,7 @@ function MarketInfoCard({marketinfo}:{marketinfo:any}) {
         <CardContent className="flex flex-col gap-2">
             <span className={cn("text-primary text-sm font-medium ")}>{marketinfo.indicator}</span>
             <div className={cn("text-2xl font-semibold")} >{marketinfo.indicatorValue}</div>
-            <div className="text-gray-700  max-h-12 text-xs  text-justify">{marketinfo.message}</div>
+            <div className="text-gray-700 h-8  max-h-8 text-xs  text-justify">{marketinfo.message}</div>
         
             <div className="grid grid-cols-8 gap-1 items-end ">
                 {Array.from({ length: 5 }, (_, index) => index).map(

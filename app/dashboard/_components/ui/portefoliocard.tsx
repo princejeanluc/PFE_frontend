@@ -77,10 +77,10 @@ export default function PortfolioCard({
       <div className="mt-3 md:mt-4 grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
         {/* Colonne gauche */}
         <div>
-          <div className="text-3xl md:text-4xl font-extrabold tracking-tight">
+          <div className="text-xl md:text-2xl font-extrabold tracking-tight">
             <CountUp end={portfolio.initial_budget} duration={1.2} decimals={2} separator=" " suffix=" $" />
           </div>
-          <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+          <div className="mt-1 text-xs text-zinc-600 dark:text-zinc-300">
             Période : <b>{portfolio.holding_start}</b> → <b>{portfolio.holding_end}</b>
           </div>
 

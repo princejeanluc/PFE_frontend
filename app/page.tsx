@@ -62,7 +62,7 @@ function Hero() {
             className="mt-4 text-zinc-600 dark:text-zinc-300"
             custom={1} variants={fadeUp} initial="hidden" animate="show"
           >
-            L’IA au cœur de votre stratégie : analyse des actualités, gestion du risque et simulation —
+            L’IA au cœur de votre stratégie : analyse des actualités, gestion du risque et simulation ,
             tout-en-un, simple et rapide.
           </motion.p>
           <motion.div className="mt-6 flex gap-3" custom={2} variants={fadeUp} initial="hidden" animate="show">
@@ -75,7 +75,7 @@ function Hero() {
           </motion.div>
         </div>
 
-        {/* Visuel (remplace par ton image/illustration) */}
+        {/* Visuel  */}
         <motion.div
           className="relative aspect-[16/10] w-full rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-white to-zinc-50 dark:from-zinc-900 dark:to-black overflow-hidden"
           custom={3} variants={fadeUp} initial="hidden" animate="show"
@@ -83,7 +83,7 @@ function Hero() {
           {/* Placeholder image */}
           <Image
             alt="Aperçu produit"
-            src="/landing/hero.png" // remplace par ton asset (public/hero-placeholder.png)
+            src="/landing/hero.png" 
             fill
             className="object-cover opacity-90"
             priority
