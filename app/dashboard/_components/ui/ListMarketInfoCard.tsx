@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { useMarketIndicators } from '../../_lib/hooks/market'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { usePortfolios } from '../../_lib/hooks/simulation'
+import Titlebar from './titlebar'
 
 function useDebounced<T>(value: T, delay = 500) {
   const [v, setV] = useState(value)
@@ -35,10 +36,9 @@ function ListPortFolioComponent() {
   const onResetFilters = () => { setPendingStart(''); setPendingEnd(''); setApplied({ start: '', end: '' }); setPage(1) }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="w-full h-fit flex flex-wrap gap-3 justify-between bg-white px-4 py-3 border-l-4 border-primary items-center rounded-sm shadow-sm">
-        <span className="text-primary font-medium">Portefeuilles</span>
-
+    <div className="flex flex-col gap-2">
+      <Titlebar title='Portefeuilles'/>
+      <div className="w-full h-fit flex flex-wrap gap-3 justify-between bg-white px-4 py-3  items-center justify-center rounded-sm shadow-sm">
         <div className="flex flex-wrap gap-2 items-center">
           <div className="relative">
             <Input
@@ -90,8 +90,8 @@ function ListPortFolioComponent() {
         </div>
       </div>
 
-      <Pagination>
-        <PaginationContent>
+      <Pagination >
+        <PaginationContent className='bg-white rounded-xl px-4 shadow'>
           <PaginationItem>
             <PaginationPrevious href="#" onClick={() => setPage((prev) => Math.max(prev - 1, 1))} />
           </PaginationItem>

@@ -17,8 +17,16 @@ export const useMarketIndicators = () => {
 export const useCryptoChartData = (symbol: string, range: string) => {
   return useQuery({
     queryKey: ["crypto-chart-data", symbol, range],
-    queryFn: () => getCryptoChartData(symbol, range),
+    // queryFn reçoit un param context qui contient signal (AbortSignal)
+    queryFn: async ({ signal }) => {
+      // si symbol est vide, on peut renvoyer null / throw pour éviter appel inutile
+      if (!symbol) return null;
+      return getCryptoChartData(symbol, range, signal);
+    },
     staleTime: 1000 * 60 * 5, // 5 minutes
+    enabled: Boolean(symbol), // n'exécute pas la requête si symbol falsy
+    retry: 2,                 // retry court (configurable)
+    retryDelay: attempt => Math.min(1000 * 2 ** attempt, 30000),
   });
 };
 

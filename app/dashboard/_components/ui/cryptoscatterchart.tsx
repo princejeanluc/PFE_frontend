@@ -193,7 +193,7 @@ export default function CryptoScatterChart() {
           setSelected={setSelectedClusters}
           clusterColors={clusterColors}
         />
-      <ResponsiveContainer height="100%" width="100%" minHeight={300} maxHeight={500}>
+      <ResponsiveContainer height="100%" width="100%" minHeight={300} maxHeight={400}>
         <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <XAxis type="number" dataKey="x" name="Comportement X" hide domain={['auto', 'auto']}/>
           <YAxis type="number" dataKey="y" name="Comportement Y" hide domain={['auto', 'auto']}  />

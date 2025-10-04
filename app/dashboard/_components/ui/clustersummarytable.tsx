@@ -42,9 +42,9 @@ function ClusterSummaryTable({ points}:{points:any[]}) {
 
   return (
     <div className="mt-6 h-fit">
-      <h2 className="text-sm font-semibold mb-2">Statistiques par cluster</h2>
+      <h2 className="text-xs font-semibold mb-2">Statistiques par cluster</h2>
       <div className="overflow-x-auto">
-        <table className="text-xs w-full border border-gray-200 rounded-sm shadow-sm bg-white">
+        <table className="text-xs w-full shadow-md shadow-amber-400 ">
           <thead>
             <tr className="text-left bg-gray-50 text-gray-600">
               <th className="px-3 py-2">Cluster</th>

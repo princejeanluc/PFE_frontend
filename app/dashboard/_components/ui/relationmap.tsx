@@ -85,7 +85,7 @@ function RelationMap() {
                         labelTextColor={{ from: 'color', modifiers: [['darker', 3]] }}
                         borderColor='#ffffff'
                         borderWidth={2}
-                        enableLabels={true}
+                        enableLabels={false}
                         axisTop={{ tickRotation: -90, legend: 'Cryptos', legendOffset: 46 }}
                         legends={[
                         {

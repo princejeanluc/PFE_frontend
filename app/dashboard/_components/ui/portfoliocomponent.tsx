@@ -87,7 +87,7 @@ function PortfolioComponent({ portfolioId }: { portfolioId: number | string }) {
   const noSimulation = !data.performances || data.performances.length === 0
 
   return (
-    <div className="py-4">
+    <div className="py-4 flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <Titlebar title={`Portefeuille : ${data.name}`} />
         <button
