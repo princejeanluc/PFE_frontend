@@ -38,7 +38,7 @@ export interface PortfolioData {
 
 export interface HoldingData {
   portfolio: number
-  crypto: number
+  crypto: string
   allocation_percentage: number
 }
 
@@ -51,7 +51,7 @@ export const createPortfolio = async (data: PortfolioData) => {
   }
 }
 
-export const createHoldings = async (data: HoldingData[]) => {
+export const createHoldings = async (data: HoldingData) => {
   try {
     const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/holdings/`, data)
     return response.data

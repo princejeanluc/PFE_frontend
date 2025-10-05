@@ -97,7 +97,7 @@ export default function CreatePortfolioSheet({ onSuccess }: { onSuccess: () => v
       } else {
         // auto : crée juste les lignes holdings (alloc% = 0, backend optimisera)
         const payload = selectedCryptos.map(c => ({ portfolio: portfolio.id, crypto: c.id, allocation_percentage: 0, quantity: 0 }))
-        createHoldings(payload)
+        payload.forEach((p)=> createHoldings(p))
         toast.success('Répartition enregistrée')
         setOpen(false); resetState(); onSuccess?.()
       }
@@ -111,8 +111,11 @@ export default function CreatePortfolioSheet({ onSuccess }: { onSuccess: () => v
     if (Math.round(totalAlloc) !== 100) { toast.error(`La somme doit faire 100%. Actuellement: ${totalAlloc.toFixed(2)}%`); return }
     setSubmitting(true)
     try {
-      const payload = holdings.map(h => ({ portfolio: portfolioId, crypto: Number.parseInt(h.crypto), allocation_percentage: Number(h.allocation_percentage), quantity: 0 }))
-      createHoldings(payload)
+      console.log(holdings)      
+      const payload = holdings.map(h => ({ portfolio: portfolioId, crypto: h.crypto, allocation_percentage: Number(h.allocation_percentage), quantity: 0 }))
+      //createHoldings(payload)
+      console.log(payload)
+      payload.forEach((p)=> createHoldings(p))
       toast.success('Répartition enregistrée')
       setOpen(false); resetState(); onSuccess?.()
     } catch { toast.error('Erreur lors de l’enregistrement des allocations') }

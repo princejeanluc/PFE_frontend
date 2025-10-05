@@ -29,7 +29,7 @@ export const useCreatePortfolio = () => {
 
 export const useCreateHoldings = () => {
   return useMutation({
-    mutationFn: async (data: HoldingData[]) => createHoldings(data),
+    mutationFn: async (data: HoldingData) => createHoldings(data),
   })
 }
 
