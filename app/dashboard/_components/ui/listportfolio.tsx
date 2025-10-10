@@ -38,7 +38,7 @@ function ListPortFolioComponent() {
   return (
     <div className="flex flex-col gap-2">
       <Titlebar title='Portefeuilles'/>
-      <div className="w-full h-fit flex flex-wrap gap-3 justify-between bg-white px-4 py-3  items-center justify-center rounded-sm shadow-sm">
+      <div className="w-full h-fit flex flex-wrap gap-3  bg-white px-4 py-3  items-center justify-center rounded-sm shadow-sm">
         <div className="flex flex-wrap gap-2 items-center">
           <div className="relative">
             <Input
