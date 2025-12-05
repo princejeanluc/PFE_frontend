@@ -9,6 +9,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.posa_frontend.rule=Host(`posa.princejeanluc.work`)"
+      - "traefik.http.routers.posa_frontend.rule=Host(`princejeanluc.work`)"
       - "traefik.http.routers.posa_frontend.entrypoints=websecure"
       - "traefik.http.routers.posa_frontend.tls=true"
       - "traefik.http.routers.posa_frontend.tls.certresolver=le"
