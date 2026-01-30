@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import { useState, useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+} from "@/components/ui/select";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 type Role =
   | "analyste"
@@ -23,111 +23,109 @@ type Role =
   | "etudiant"
   | "enseignant"
   | "portfolio_manager"
-  | "autre"
+  | "autre";
 
 export default function RegisterPage() {
-  const router = useRouter()
+  const router = useRouter();
 
   const [form, setForm] = useState<{
-    username: string
-    email: string
-    password: string
-    type: Role | ""
-  }>({ username: "", email: "", password: "", type: "" })
+    username: string;
+    email: string;
+    password: string;
+    type: Role | "";
+  }>({ username: "", email: "", password: "", type: "" });
 
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof typeof form, string>>>({})
-  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof typeof form, string>>>(
+    {}
+  );
+  const [showPassword, setShowPassword] = useState(false);
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setForm((f) => ({ ...f, [name]: value }))
-    setFieldErrors((errs) => ({ ...errs, [name]: undefined }))
-  }
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+    setFieldErrors((errs) => ({ ...errs, [name]: undefined }));
+  };
 
-  // Petite jauge de robustesse du mot de passe (indicative, non bloquante)
   const passwordScore = useMemo(() => {
-    let s = 0
-    if (form.password.length >= 8) s++
-    if (/[A-Z]/.test(form.password)) s++
-    if (/[a-z]/.test(form.password)) s++
-    if (/\d/.test(form.password)) s++
-    if (/[^A-Za-z0-9]/.test(form.password)) s++
-    return s // 0..5
-  }, [form.password])
+    let s = 0;
+    if (form.password.length >= 8) s++;
+    if (/[A-Z]/.test(form.password)) s++;
+    if (/[a-z]/.test(form.password)) s++;
+    if (/\d/.test(form.password)) s++;
+    if (/[^A-Za-z0-9]/.test(form.password)) s++;
+    return s;
+  }, [form.password]);
 
   const validate = () => {
-    const errs: Partial<Record<keyof typeof form, string>> = {}
-    if (!form.username.trim()) errs.username = "Le nom d’utilisateur est requis."
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = "Adresse e-mail invalide."
-    if (form.password.length < 8) errs.password = "Au moins 8 caractères."
-    if (!form.type) errs.type = "Sélectionnez un rôle."
-    setFieldErrors(errs)
-    return Object.keys(errs).length === 0
-  }
+    const errs: Partial<Record<keyof typeof form, string>> = {};
+    if (!form.username.trim()) errs.username = "Le nom d'utilisateur est requis.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errs.email = "Adresse e-mail invalide.";
+    }
+    if (form.password.length < 8) errs.password = "Au moins 8 caractères.";
+    if (!form.type) errs.type = "Sélectionnez un rôle.";
+    setFieldErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
     if (!backendUrl) {
-      setError("Configuration manquante : NEXT_PUBLIC_BACKEND_URL.")
-      return
+      setError("Configuration manquante : NEXT_PUBLIC_BACKEND_URL.");
+      return;
     }
-    if (!validate()) return
+    if (!validate()) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      // Étape 1 : inscription via API Django
       const res = await fetch(`${backendUrl}/api/auth/register/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
-      })
+      });
 
       if (!res.ok) {
-        // Essaye de lire les erreurs de l’API (email/username déjà pris, etc.)
-        let msg = "Erreur à l'inscription."
+        let msg = "Erreur à l'inscription.";
         try {
-          const data = await res.json()
+          const data = await res.json();
           msg =
             data?.email?.[0] ||
             data?.username?.[0] ||
             data?.detail ||
             data?.message ||
-            msg
+            msg;
         } catch {
           /* ignore JSON parse error */
         }
-        throw new Error(msg)
+        throw new Error(msg);
       }
 
-      // Étape 2 : connexion via NextAuth (credentials)
-      // redirect:false => on contrôle la navigation nous-mêmes
       const loginRes = await signIn("credentials", {
         redirect: false,
         username: form.username,
         password: form.password,
-        // on utilise ensuite router.push ci-dessous
-      })
+      });
 
       if (!loginRes || loginRes.error) {
         throw new Error(
           "Inscription réussie, mais échec de connexion" +
             (loginRes?.error ? ` : ${loginRes.error}` : ".")
-        )
+        );
       }
 
-      router.push("/dashboard/market")
+      router.push("/dashboard/market");
     } catch (err: any) {
-      setError(err?.message || "Une erreur est survenue.")
+      setError(err?.message || "Une erreur est survenue.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-[100dvh] w-full bg-gradient-to-b from-background to-muted/30 flex items-center justify-center px-4 py-10">
@@ -143,9 +141,8 @@ export default function RegisterPage() {
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-            {/* Username */}
             <div className="space-y-2">
-              <Label htmlFor="username">Nom d’utilisateur</Label>
+              <Label htmlFor="username">Nom d&apos;utilisateur</Label>
               <Input
                 id="username"
                 name="username"
@@ -165,7 +162,6 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -188,14 +184,13 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Role */}
             <div className="space-y-2">
               <Label>Rôle</Label>
               <Select
                 value={form.type}
                 onValueChange={(value: Role) => {
-                  setForm((f) => ({ ...f, type: value }))
-                  setFieldErrors((errs) => ({ ...errs, type: undefined }))
+                  setForm((f) => ({ ...f, type: value }));
+                  setFieldErrors((errs) => ({ ...errs, type: undefined }));
                 }}
                 disabled={loading}
                 required
@@ -212,12 +207,9 @@ export default function RegisterPage() {
                   <SelectItem value="autre">Autre</SelectItem>
                 </SelectContent>
               </Select>
-              {fieldErrors.type && (
-                <p className="text-sm text-red-500">{fieldErrors.type}</p>
-              )}
+              {fieldErrors.type && <p className="text-sm text-red-500">{fieldErrors.type}</p>}
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">Mot de passe</Label>
               <div className="relative">
@@ -230,9 +222,7 @@ export default function RegisterPage() {
                   value={form.password}
                   onChange={handleChange}
                   aria-invalid={!!fieldErrors.password}
-                  aria-describedby={
-                    fieldErrors.password ? "password-error" : "password-help"
-                  }
+                  aria-describedby={fieldErrors.password ? "password-error" : "password-help"}
                   disabled={loading}
                   required
                 />
@@ -246,7 +236,6 @@ export default function RegisterPage() {
                 </button>
               </div>
 
-              {/* Jauge (indicative) */}
               <div className="h-1 w-full rounded bg-muted overflow-hidden" id="password-help">
                 <div
                   className="h-full bg-primary transition-all"
@@ -264,7 +253,6 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Error global */}
             {error && (
               <div className="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
                 {error}
@@ -287,18 +275,12 @@ export default function RegisterPage() {
         <CardFooter className="flex items-center justify-between text-sm text-muted-foreground">
           <span>Vous avez déjà un compte ?</span>
           <div className="flex items-center gap-2">
-            {/* Lien vers la page de connexion de ton app */}
             <Link href="/login" className="text-primary hover:underline">
               Se connecter
             </Link>
-            {/* Ou déclencher NextAuth directement si tu préfères :
-            <Button variant="ghost" size="sm" onClick={() => signIn()}>
-              Se connecter
-            </Button>
-            */}
           </div>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

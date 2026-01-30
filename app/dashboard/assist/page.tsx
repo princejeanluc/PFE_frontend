@@ -2,8 +2,8 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import MarkdownViewer from "../_components/ui/MarkdownViewer";
-import { useAssistBrief, useAssistChat } from "../_lib/hooks/assist";
+import MarkdownViewer from "@/features/assist/components/MarkdownViewer";
+import { useAssistBrief, useAssistChat } from "@/features/assist/hooks/assist";
 
 /* ---------- UI atoms ---------- */
 

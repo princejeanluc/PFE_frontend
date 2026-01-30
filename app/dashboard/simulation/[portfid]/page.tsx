@@ -1,5 +1,5 @@
 
-import PortfolioComponent from "../../_components/ui/portfoliocomponent"
+import PortfolioComponent from "@/features/simulation/components/portfoliocomponent"
 
 export default async function Page({
   params,

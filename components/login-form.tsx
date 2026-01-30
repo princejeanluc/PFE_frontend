@@ -1,74 +1,71 @@
-'use client'
+'use client';
 
-import { useState, useMemo } from 'react'
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
-import Image from "next/image"
-import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { useState, useMemo } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard/market'
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard/market";
 
-  const [identifiant, setIdentifiant] = useState("") // email ou nom d’utilisateur
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [identifiant, setIdentifiant] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const disabled = useMemo(
     () => loading || !identifiant.trim() || password.length === 0,
     [loading, identifiant, password]
-  )
+  );
 
   const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
     try {
-      // Credentials: on envoie 'email' si l’input contient '@', sinon 'username'
       const payload: Record<string, any> = {
         redirect: false,
         password,
-      }
-      if (identifiant.includes('@')) payload.email = identifiant.trim()
-      else payload.username = identifiant.trim()
+      };
+      if (identifiant.includes("@")) payload.email = identifiant.trim();
+      else payload.username = identifiant.trim();
 
-      const res = await signIn("credentials", payload)
+      const res = await signIn("credentials", payload);
 
       if (!res || res.error) {
-        throw new Error("Identifiants incorrects ou compte introuvable.")
+        throw new Error("Identifiants incorrects ou compte introuvable.");
       }
-      router.push(callbackUrl)
+      router.push(callbackUrl);
     } catch (err: any) {
-      console.log( `call back to ${callbackUrl}`)
-      setError(err?.message ?? "Une erreur est survenue.")
+      setError(err?.message ?? "Une erreur est survenue.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const signInWithGoogle = async () => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     try {
-      // Laisse NextAuth gérer la redirection
-      await signIn("google", { callbackUrl })
-    } catch (err:unknown) {
-      setError( `Impossible de démarrer la connexion Google.${err}`)
-      setLoading(false)
+      await signIn("google", { callbackUrl });
+    } catch (err: unknown) {
+      setError(`Impossible de démarrer la connexion Google.${err}`);
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -84,7 +81,7 @@ export function LoginForm({
               </div>
 
               <div className="grid gap-3">
-                <Label htmlFor="identifiant">E-mail ou nom d’utilisateur</Label>
+                <Label htmlFor="identifiant">E-mail ou nom d&apos;utilisateur</Label>
                 <Input
                   id="identifiant"
                   name="identifiant"
@@ -185,7 +182,7 @@ export function LoginForm({
           <div className="bg-zinc-100 relative hidden md:block dark:bg-zinc-800">
             <Image
               src="/landing/auth.png"
-              alt="Illustration d’authentification"
+              alt="Illustration d&apos;authentification"
               width={1020}
               height={1020}
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
@@ -196,9 +193,9 @@ export function LoginForm({
       </Card>
 
       <div className="text-zinc-500 *:[a]:hover:text-zinc-900 text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4 dark:text-zinc-400 dark:*:[a]:hover:text-zinc-50">
-        En continuant, vous acceptez nos <a href="/terms">Conditions d’utilisation</a>{" "}
+        En continuant, vous acceptez nos <a href="/terms">Conditions d&apos;utilisation</a>{" "}
         et notre <a href="/privacy">Politique de confidentialité</a>.
       </div>
     </div>
-  )
+  );
 }
