@@ -80,13 +80,17 @@ export function ChartAreaInteractive() {
                   ) : (
                     options.map((c) => (
                       <SelectItem key={c.symbol} value={c.symbol} className="flex items-center gap-2">
-                        <Image
-                          src={c.image_url}
-                          alt={c.name}
-                          className="w-5 h-5 rounded-full"
-                          width={20}
-                          height={20}
-                        />
+                        {c.image_url ? (
+                          <Image
+                            src={c.image_url}
+                            alt={c.name ?? c.symbol}
+                            className="w-5 h-5 rounded-full"
+                            width={20}
+                            height={20}
+                          />
+                        ) : (
+                          <span className="w-5 h-5 rounded-full bg-slate-200" aria-hidden="true" />
+                        )}
                         <span className="truncate">
                           {c.name} <span className="text-xs opacity-70">({c.symbol.toUpperCase()})</span>
                         </span>
